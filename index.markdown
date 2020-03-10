@@ -1,6 +1,8 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-# [{{ page.title }}]("{{ page.url | relative_url }}")
-layout: home
+layout: default
 ---
+Welcome to my homepage. Very much work in progress.
+
+Some things: 
+- [Robot bounce](https://gilben1.github.io/robot-bounce)
+  - [Github Repo](https://github.com/gilben1/robot-bounce)
