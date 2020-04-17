@@ -79,7 +79,7 @@ menu : Model -> Html Msg
 menu model =
     Navbar.config NavbarMsg
         |> Navbar.withAnimation
-        |> Navbar.brand [ href "#" ] [ text "Home" ]
+        |> Navbar.brand [ href "/" ] [ text "Home" ]
         |> Navbar.items
             [ Navbar.itemLink [ href "/foo" ] [text "foo" ]
             , Navbar.itemLink [ href "/bar" ] [text "bar" ]
