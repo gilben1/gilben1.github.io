@@ -5,6 +5,8 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid
 
 main : Program () Model Msg
 main =
@@ -50,19 +52,37 @@ subscriptions model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "URL Interceptor"
+    { title = "Nicholas Gilbert Elm Homepage"
     , body =
-        [ text "The current URL is: "
-        , b [] [ text (Url.toString model.url) ]
-        , ul []
-            [ viewLink "/home"
-            , viewLink "/profile"
-            , viewLink "/reviews/the-century-of-the-self"
-            , viewLink "/reviews/public-opinion"
-            , viewLink "/reviews/shah-of-shahs"
+        [ Grid.container []
+            [ CDN.stylesheet
+            , Grid.row []
+                [ Grid.col []
+                    [ b [] [ text (Url.toString model.url) ] ]
+                ]
+            , Grid.row []
+                [ Grid.col []
+                    [ viewLink "/home"
+                    , viewLink "/hello" 
+                    ]
+                ]
             ]
         ]
     }
+
+--    { title = "URL Interceptor"
+--    , body =
+--        [ text "The current URL is: "
+--        , b [] [ text (Url.toString model.url) ]
+--        , ul []
+--            [ viewLink "/home"
+--            , viewLink "/profile"
+--            , viewLink "/reviews/the-century-of-the-self"
+--            , viewLink "/reviews/public-opinion"
+--            , viewLink "/reviews/shah-of-shahs"
+--            ]
+--        ]
+--    }
 
 viewLink : String -> Html msg
 viewLink path =
