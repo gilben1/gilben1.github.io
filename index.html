@@ -2,13 +2,9 @@
 <html>
     <head></head>
     <body>
-        <div id="elm-app"></div>
         <script src="./elm.min.js"></script>
         <script>
-        const elmDiv = document.querySelector('#elm-app');
-        if (elmDiv) {
-            var myApp = Elm.Main.embed(elmDiv);
-        }
+            var app = Elm.Main.init();
         </script>
     </body>
 </html>
