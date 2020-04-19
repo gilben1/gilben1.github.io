@@ -5,6 +5,7 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Navbar as Navbar
@@ -67,10 +68,7 @@ view model =
         [ Grid.container []
             [ CDN.stylesheet
             , menu model
-            , Grid.row []
-                [ Grid.col []
-                    [ b [] [ text (Url.toString model.url) ] ]
-                ]
+            , viewHandler model
             ]
         ]
     }
@@ -81,11 +79,56 @@ menu model =
         |> Navbar.withAnimation
         |> Navbar.brand [ href "/" ] [ text "Home" ]
         |> Navbar.items
-            [ Navbar.itemLink [ href "/foo" ] [text "foo" ]
-            , Navbar.itemLink [ href "/bar" ] [text "bar" ]
+            [ Navbar.itemLink [ href "/projects" ] [text "Projects" ]
+            , Navbar.itemLink [ href "/resume" ] [text "Resume" ]
             ]
         |> Navbar.view model.navbarState
 
 viewLink : String -> Html msg
 viewLink path =
     li [] [ a [ href path ] [ text path ] ]
+
+viewHandler : Model -> Html Msg
+viewHandler model =
+    case Url.Parser.parse routeParser model.url of
+        Just Project ->
+            viewProject model
+        Just Resume ->
+            viewResume model
+        Nothing ->
+            viewHome model
+
+type Route 
+    = Project
+    | Resume
+
+routeParser : Parser (Route -> a) a
+routeParser =
+    oneOf
+        [ Url.Parser.map Project (Url.Parser.s "projects")
+        , Url.Parser.map Resume (Url.Parser.s "resume")
+        ]
+
+viewProject : Model -> Html Msg
+viewProject model =
+    Grid.row []
+        [ Grid.col []
+            [ b [] [ text "This is a project list!" ] ]
+        ]
+
+viewResume : Model -> Html Msg
+viewResume model =
+    Grid.row []
+        [ Grid.col []
+            [ b [] [ text "This is a virtual resume!" ] ]
+        ]
+
+viewHome : Model -> Html Msg
+viewHome model =
+    Grid.row []
+        [ Grid.col []
+            [ b [] [ text "Welcome to my homepage!" ]
+            , div []
+                [ text "This is very much work in progress!" ]
+            ]
+        ]
