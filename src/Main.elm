@@ -78,18 +78,16 @@ menu model =
     Navbar.config NavbarMsg
         |> Navbar.withAnimation
         |> Navbar.primary
-        |> Navbar.brand [ href "/" ] [ text "Home" ]
+        |> Navbar.brand [ href "/" ] 
+            [ img [ src "https://image.flaticon.com/icons/svg/25/25694.svg", width 40, height 40 ] [] ]
         |> Navbar.items
-            --[ Navbar.itemLink [ href "/projects" ] [text "Projects" ]
-            --, Navbar.itemLink [ href "/resume" ] [text "Resume" ]
-            --]
-            [ menuHighlight model "/projects" [ href "/projects" ] [text "Projects" ]
-            , menuHighlight model "/resume" [ href "/resume" ] [text "Resume" ]
+            [ menuItem model "/projects" [ href "/projects" ] [text "Projects" ]
+            , menuItem model "/resume" [ href "/resume" ] [text "Resume" ]
             ]
         |> Navbar.view model.navbarState
 
-menuHighlight : Model -> String -> (List (Attribute msg) -> List (Html msg) -> Navbar.Item msg)
-menuHighlight model path =
+menuItem : Model -> String -> (List (Attribute msg) -> List (Html msg) -> Navbar.Item msg)
+menuItem model path =
     case Url.Parser.parse routeParser model.url of
         Just Project ->
             case path of
