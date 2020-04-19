@@ -10,10 +10,11 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
-import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Text as Text
 import Bootstrap.Navbar as Navbar
+import Bootstrap.Accordion as Accordion
+import Bootstrap.Card.Block as Block 
 
 main : Program () Model Msg
 main =
@@ -28,6 +29,7 @@ main =
 
 type alias Model =
     { navbarState : Navbar.State 
+    , accordionState : Accordion.State
     , url : Url.Url
     , key : Nav.Key
     }
@@ -39,10 +41,16 @@ init toMsg url key =
         (navbarState, navbarCmd)
             = Navbar.initialState NavbarMsg
     in
-        (Model navbarState url key, navbarCmd )
+        --(Model navbarState url key, navbarCmd )
+        ({ navbarState = navbarState
+         , accordionState = Accordion.initialState
+         , url = url
+         , key = key
+        }, navbarCmd)
 
 type Msg
     = NavbarMsg Navbar.State
+    | AccordionMsg Accordion.State
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
@@ -51,6 +59,9 @@ update msg model =
     case msg of
         NavbarMsg state ->
             ( { model | navbarState = state }, Cmd.none)
+        AccordionMsg state ->
+            ( { model | accordionState = state } , Cmd.none )
+
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
@@ -64,17 +75,16 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Navbar.subscriptions model.navbarState NavbarMsg
+    Sub.batch [ Navbar.subscriptions model.navbarState NavbarMsg
+              , Accordion.subscriptions model.accordionState AccordionMsg
+              ]
 
 view : Model -> Browser.Document Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
         [ Grid.containerFluid []
-            [ CDN.stylesheet
-            , menu model
-            , viewHandler model
-            ]
+            (viewHandler model)
         ]
     }
 
@@ -120,13 +130,16 @@ routeParser =
         , Url.Parser.map Resume (Url.Parser.s "resume")
         ]
 
-viewHandler : Model -> Html Msg
+viewHandler : Model -> List (Html Msg)
 viewHandler model =
+    [ CDN.stylesheet
+    , menu model
+    ] ++ 
     case Url.Parser.parse routeParser model.url of
         Just Project ->
-            viewProject model
+            viewProject model 
         Just Resume ->
-            viewResume model
+            viewResume model 
         Nothing ->
             viewHome model
 
@@ -139,9 +152,9 @@ defaultColAlignment =
     --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
     [Col.textAlign Text.alignXsCenter]
 
-viewProject : Model -> Html Msg
+viewProject : Model -> List (Html Msg)
 viewProject model =
-    Grid.row defaultRowAlignment
+    [ Grid.row defaultRowAlignment
         [ Grid.col defaultColAlignment
             [ b [] [ text "This is a project list!" ] 
             , br [] []
@@ -150,10 +163,40 @@ viewProject model =
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
+    , Grid.row [Row.topXs]
+        [ Grid.col [Col.xs2] []
+        , Grid.col defaultColAlignment
+            [ projectCard model "prj1" "Project 1" "This project does things"
+            ]
+        , Grid.col [Col.xs1] []
+        , Grid.col defaultColAlignment
+            [ projectCard model "prj2" "Project 2" "This project also does things"
+            ]
+        , Grid.col [Col.xs2] []
+        ]
+    ]
 
-viewResume : Model -> Html Msg
+projectCard : Model -> String -> String -> String -> Html Msg
+projectCard model id headerText blockText =
+    Accordion.config AccordionMsg
+        |> Accordion.withAnimation
+        |> Accordion.cards
+            [ Accordion.card
+                { id = id
+                , options = []
+                , header =
+                    Accordion.header [] <| Accordion.toggle [] [ text headerText ]
+                , blocks =
+                    [ Accordion.block []
+                        [ Block.text [] [ text blockText ] ]
+                    ]
+                }
+            ]
+        |> Accordion.view model.accordionState
+
+viewResume : Model -> List (Html Msg)
 viewResume model =
-    Grid.row defaultRowAlignment
+    [ Grid.row defaultRowAlignment
         [ Grid.col defaultColAlignment
             [ b [] [ text "This is a virtual resume!" ] 
             , br [] []
@@ -162,10 +205,11 @@ viewResume model =
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
+    ]
 
-viewHome : Model -> Html Msg
+viewHome : Model -> List (Html Msg)
 viewHome model =
-    Grid.row defaultRowAlignment
+    [ Grid.row defaultRowAlignment
         [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []
@@ -174,3 +218,5 @@ viewHome model =
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
+    ]
+
