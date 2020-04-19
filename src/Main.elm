@@ -108,12 +108,6 @@ menuItem model path =
                     Navbar.itemLink
         Nothing ->
             Navbar.itemLink
-                
-
-
-viewLink : String -> Html msg
-viewLink path =
-    li [] [ a [ href path ] [ text path ] ]
 
 type Route 
     = Project
@@ -138,17 +132,21 @@ viewHandler model =
 
 defaultRowAlignment : List (Row.Option msg)
 defaultRowAlignment =
-    [Row.middleMd]
+    [Row.middleXs]
 
 defaultColAlignment : List (Col.Option msg)
 defaultColAlignment =
-    [Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
+    --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
+    [Col.textAlign Text.alignXsCenter]
 
 viewProject : Model -> Html Msg
 viewProject model =
     Grid.row defaultRowAlignment
         [ Grid.col defaultColAlignment
-            [ b [] [ text "This is a project list!" ] ]
+            [ b [] [ text "This is a project list!" ] 
+            , br [] []
+            , text "This is very much work in progress!"
+            ]
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
@@ -157,7 +155,10 @@ viewResume : Model -> Html Msg
 viewResume model =
     Grid.row defaultRowAlignment
         [ Grid.col defaultColAlignment
-            [ b [] [ text "This is a virtual resume!" ] ]
+            [ b [] [ text "This is a virtual resume!" ] 
+            , br [] []
+            , text "This is very much work in progress!"
+            ]
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
