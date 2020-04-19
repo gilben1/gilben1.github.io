@@ -8,6 +8,11 @@ import Url
 import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Row as Row 
+import Bootstrap.Grid.Col as Col
+import Bootstrap.Utilities.Border as Border
+import Bootstrap.Utilities.Spacing as Spacing
+import Bootstrap.Text as Text
 import Bootstrap.Navbar as Navbar
 
 main : Program () Model Msg
@@ -65,7 +70,7 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
-        [ Grid.container []
+        [ Grid.containerFluid []
             [ CDN.stylesheet
             , menu model
             , viewHandler model
@@ -131,27 +136,40 @@ viewHandler model =
         Nothing ->
             viewHome model
 
+defaultRowAlignment : List (Row.Option msg)
+defaultRowAlignment =
+    [Row.middleMd]
+
+defaultColAlignment : List (Col.Option msg)
+defaultColAlignment =
+    [Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
 
 viewProject : Model -> Html Msg
 viewProject model =
-    Grid.row []
-        [ Grid.col []
+    Grid.row defaultRowAlignment
+        [ Grid.col defaultColAlignment
             [ b [] [ text "This is a project list!" ] ]
+        , Grid.col defaultColAlignment
+            [ b [] [ text "WIP!" ] ]
         ]
 
 viewResume : Model -> Html Msg
 viewResume model =
-    Grid.row []
-        [ Grid.col []
+    Grid.row defaultRowAlignment
+        [ Grid.col defaultColAlignment
             [ b [] [ text "This is a virtual resume!" ] ]
+        , Grid.col defaultColAlignment
+            [ b [] [ text "WIP!" ] ]
         ]
 
 viewHome : Model -> Html Msg
 viewHome model =
-    Grid.row []
-        [ Grid.col []
-            [ b [] [ text "Welcome to my homepage!" ]
-            , div []
-                [ text "This is very much work in progress!" ]
+    Grid.row defaultRowAlignment
+        [ Grid.col defaultColAlignment
+            [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
+            , br [] []
+            , text "This is very much work in progress!"
             ]
+        , Grid.col defaultColAlignment
+            [ b [] [ text "WIP!" ] ]
         ]
