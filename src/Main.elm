@@ -94,7 +94,7 @@ menu model =
         |> Navbar.withAnimation
         |> Navbar.primary
         |> Navbar.brand [ href "/" ] 
-            [ img [ src "https://image.flaticon.com/icons/svg/25/25694.svg", width 40, height 40 ] [] ]
+            [ img [ src "https://image.flaticon.com/icons/svg/25/25694.svg", width 32, height 32 ] [] ]
         |> Navbar.items
             [ menuItem model "/projects" [ href "/projects" ] [text "Projects" ]
             , menuItem model "/resume" [ href "/resume" ] [text "Resume" ]
@@ -152,6 +152,11 @@ defaultColAlignment =
     --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
     [Col.textAlign Text.alignXsCenter]
 
+type ProjectSource
+    = GitHub
+    | GitLab
+    | Other
+
 type alias ProjectCard = 
     { id : String
     , title : String
@@ -161,20 +166,12 @@ type alias ProjectCard =
     , mainLinkText : String
     , srcLink : String
     , srcLinkText : String
+    , srcType : ProjectSource
     }
 
 viewProject : Model -> List (Html Msg)
 viewProject model =
-    [ Grid.row defaultRowAlignment
-        [ Grid.col defaultColAlignment
-            [ b [] [ text "This is a project list!" ] 
-            , br [] []
-            , text "This is very much work in progress!"
-            ]
-        , Grid.col defaultColAlignment
-            [ b [] [ text "WIP!" ] ]
-        ]
-    , Grid.row [Row.topXs]
+    [ Grid.row [Row.middleXs]
         [ Grid.col [Col.xs2] []
         , Grid.col defaultColAlignment
             [ projectCard model 
@@ -186,6 +183,7 @@ viewProject model =
                 , mainLinkText = "Play now!"
                 , srcLink = "https://github.com/gilben1/robot-bounce"
                 , srcLinkText = "Github Repository"
+                , srcType = GitHub
                 }
             ]
         , Grid.col defaultColAlignment
@@ -193,11 +191,12 @@ viewProject model =
                 { id = "elmsite"
                 , title = "gilben1.github.io"
                 , desc = "This website! Written in Elm using Elm Bootstrap 4"
-                , img = ""
+                , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
                 , mainLink = "https://gilben1.github.io"
                 , mainLinkText = "Link here!"
                 , srcLink = "https://github.com/gilben1/gilben1.github.io"
                 , srcLinkText = "Github Repository"
+                , srcType = GitHub
                 }
             ]
         , Grid.col defaultColAlignment
@@ -205,11 +204,12 @@ viewProject model =
                 { id = "shtab"
                 , title = "shTab"
                 , desc = "Shell new tab page extension for Firefox"
-                , img = ""
+                , img = "https://image.flaticon.com/icons/svg/2535/2535381.svg"
                 , mainLink = "https://addons.mozilla.org/en-US/firefox/addon/shtab/"
                 , mainLinkText = "Install now! (Temporarily disabled)"
                 , srcLink = "https://gitlab.com/gilben/shTab"
                 , srcLinkText = "Gitlab Repository"
+                , srcType = GitLab
                 }
             ]
         , Grid.col [Col.xs2] []
@@ -226,17 +226,36 @@ projectCard model prj =
                 , options = []
                 , header =
                     Accordion.header [] <| Accordion.toggle [] 
-                        [ case prj.img of 
-                            "" -> 
-                                text ""
-                            _ ->
-                                img [src prj.img, width 40, height 40] [] 
-                        , text prj.title
+                        [ Grid.container []
+                            [ Grid.row [Row.middleXs] 
+                                [ Grid.col []
+                                    [ case prj.img of 
+                                        "" -> 
+                                            text ""
+                                        _ ->
+                                            img [src prj.img, width 64, height 64] [] 
+                                    ]
+                                , Grid.col [Col.xs1] []
+                                , Grid.col []
+                                    [ text prj.title ]
+                                ]
+                            ]
                         ]
                 , blocks =
-                    [ Accordion.block [ Block.align Text.alignXsLeft]
+                    [ Accordion.block [ Block.align Text.alignXsLeft ]
                         [ Block.text [] [ text prj.desc ] 
-                        , Block.link [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                        ]
+                    , Accordion.block [ Block.align Text.alignXsLeft ]
+                        [ Block.link [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                        ]
+                    , Accordion.block [ Block.align Text.alignXsLeft ]
+                        [ case prj.srcType of
+                            GitHub ->
+                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", width 24, height 24] [])
+                            GitLab ->
+                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", width 24, height 24] [])
+                            Other ->
+                                Block.text [] [text ""]
                         , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
                         ]
                     ]
