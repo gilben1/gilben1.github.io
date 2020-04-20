@@ -152,6 +152,17 @@ defaultColAlignment =
     --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
     [Col.textAlign Text.alignXsCenter]
 
+type alias ProjectCard = 
+    { id : String
+    , title : String
+    , desc : String
+    , img : String
+    , mainLink : String
+    , mainLinkText : String
+    , srcLink : String
+    , srcLinkText : String
+    }
+
 viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row defaultRowAlignment
@@ -166,32 +177,65 @@ viewProject model =
     , Grid.row [Row.topXs]
         [ Grid.col [Col.xs2] []
         , Grid.col defaultColAlignment
-            [ projectCard model "prj1" "Project 1" "This project does things"
+            [ projectCard model 
+                { id = "rbtbounce"
+                , title = "Robot Bounce"
+                , desc = "Robot puzzle game inspired by Ricohet Robots"
+                , img = ""
+                , mainLink = "https://gilben1.github.io/robot-bounce/"
+                , mainLinkText = "Play now!"
+                , srcLink = "https://github.com/gilben1/robot-bounce"
+                , srcLinkText = "Github Repository"
+                }
             ]
-        , Grid.col [Col.xs1] []
         , Grid.col defaultColAlignment
-            [ projectCard model "prj2" "Project 2" "This project also does things"
+            [ projectCard model
+                { id = "elmsite"
+                , title = "gilben1.github.io"
+                , desc = "This website! Written in Elm using Elm Bootstrap 4"
+                , img = ""
+                , mainLink = "https://gilben1.github.io"
+                , mainLinkText = "Link here!"
+                , srcLink = "https://github.com/gilben1/gilben1.github.io"
+                , srcLinkText = "Github Repository"
+                }
+            ]
+        , Grid.col defaultColAlignment
+            [ projectCard model
+                { id = "shtab"
+                , title = "shTab"
+                , desc = "Shell new tab page extension for Firefox"
+                , img = ""
+                , mainLink = "https://addons.mozilla.org/en-US/firefox/addon/shtab/"
+                , mainLinkText = "Install now! (Temporarily disabled)"
+                , srcLink = "https://gitlab.com/gilben/shTab"
+                , srcLinkText = "Gitlab Repository"
+                }
             ]
         , Grid.col [Col.xs2] []
         ]
     ]
 
-projectCard : Model -> String -> String -> String -> Html Msg
-projectCard model id headerText blockText =
+projectCard : Model -> ProjectCard -> Html Msg
+projectCard model prj =
     Accordion.config AccordionMsg
         |> Accordion.withAnimation
         |> Accordion.cards
             [ Accordion.card
-                { id = id
+                { id = prj.id
                 , options = []
                 , header =
-                    Accordion.header [] <| Accordion.toggle [] [ text headerText ]
+                    Accordion.header [] <| Accordion.toggle [] [ text prj.title ]
                 , blocks =
-                    [ Accordion.block []
-                        [ Block.text [] [ text blockText ] ]
+                    [ Accordion.block [ Block.align Text.alignXsLeft]
+                        [ Block.text [] [ text prj.desc ] 
+                        , Block.link [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                        , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                        ]
                     ]
                 }
             ]
+        |> Accordion.onlyOneOpen
         |> Accordion.view model.accordionState
 
 viewResume : Model -> List (Html Msg)
