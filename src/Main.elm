@@ -181,7 +181,7 @@ viewProject model =
                 { id = "rbtbounce"
                 , title = "Robot Bounce"
                 , desc = "Robot puzzle game inspired by Ricohet Robots"
-                , img = ""
+                , img = "src/assets/robot_bounce.png"
                 , mainLink = "https://gilben1.github.io/robot-bounce/"
                 , mainLinkText = "Play now!"
                 , srcLink = "https://github.com/gilben1/robot-bounce"
@@ -225,7 +225,14 @@ projectCard model prj =
                 { id = prj.id
                 , options = []
                 , header =
-                    Accordion.header [] <| Accordion.toggle [] [ text prj.title ]
+                    Accordion.header [] <| Accordion.toggle [] 
+                        [ case prj.img of 
+                            "" -> 
+                                text ""
+                            _ ->
+                                img [src prj.img, width 40, height 40] [] 
+                        , text prj.title
+                        ]
                 , blocks =
                     [ Accordion.block [ Block.align Text.alignXsLeft]
                         [ Block.text [] [ text prj.desc ] 
