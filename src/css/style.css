@@ -1,7 +1,38 @@
-.active {
-    background-color: var(--secondary);
+/* xs */
+.img-project {
+    width: 16px;
+    height: auto;
+}
+/* sm */
+@media (min-width: 768px) {
+    .img-project {
+        width: 16px;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+    .img-project {
+        width: 24px;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+    .img-project {
+        width: 64px;
+    }
 }
 
-img {
-    padding-right: 5px;
+.img-icon {
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+}
+
+.tab {
+    background-color: var(--primary);
+    color: white;
+}
+
+.tab-link:not(.active){
+    color: white
 }

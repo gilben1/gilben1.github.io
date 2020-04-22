@@ -13,6 +13,7 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Text as Text
 import Bootstrap.Navbar as Navbar
+import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
 
@@ -28,7 +29,7 @@ main =
         }
 
 type alias Model =
-    { navbarState : Navbar.State 
+    { tabState : Tab.State
     , accordionState : Accordion.State
     , url : Url.Url
     , key : Nav.Key
@@ -37,19 +38,14 @@ type alias Model =
  
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init toMsg url key =
-    let
-        (navbarState, navbarCmd)
-            = Navbar.initialState NavbarMsg
-    in
-        --(Model navbarState url key, navbarCmd )
-        ({ navbarState = navbarState
+        ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
          , url = url
          , key = key
-        }, navbarCmd)
+        }, Cmd.none)
 
 type Msg
-    = NavbarMsg Navbar.State
+    = TabMsg Tab.State
     | AccordionMsg Accordion.State
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
@@ -57,8 +53,8 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NavbarMsg state ->
-            ( { model | navbarState = state }, Cmd.none)
+        TabMsg state ->
+            ( { model | tabState = state }, Cmd.none)
         AccordionMsg state ->
             ( { model | accordionState = state } , Cmd.none )
 
@@ -75,7 +71,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch [ Navbar.subscriptions model.navbarState NavbarMsg
+    Sub.batch [ Tab.subscriptions model.tabState TabMsg
               , Accordion.subscriptions model.accordionState AccordionMsg
               ]
 
@@ -84,64 +80,42 @@ view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
         [ Grid.containerFluid []
-            (viewHandler model)
+            [ CDN.stylesheet
+            , menu model
+            ] 
         ]
     }
 
 menu : Model -> Html Msg
 menu model =
-    Navbar.config NavbarMsg
-        |> Navbar.withAnimation
-        |> Navbar.primary
-        |> Navbar.brand [ href "/" ] 
-            [ img [ src "https://image.flaticon.com/icons/svg/25/25694.svg", width 32, height 32 ] [] ]
-        |> Navbar.items
-            [ menuItem model "/projects" [ href "/projects" ] [text "Projects" ]
-            , menuItem model "/resume" [ href "/resume" ] [text "Resume" ]
+    Tab.config TabMsg
+        |> Tab.withAnimation
+        |> Tab.center
+        |> Tab.items
+            [ Tab.item
+                { id = "tabHome"
+                , link = Tab.link [ class "tab-link" ] [ text "Home" ]
+                , pane =
+                    Tab.pane [ Spacing.mt3 ]
+                       (viewHome model)
+                }
+            , Tab.item
+                { id = "tabProject"
+                , link = Tab.link [ class "tab-link" ] [ text "Projects" ]
+                , pane =
+                    Tab.pane [ Spacing.mt3 ]
+                       (viewProject model)
+                }
+            , Tab.item
+                { id = "tabResumes"
+                , link = Tab.link [ class "tab-link" ] [ text "Resume" ]
+                , pane =
+                    Tab.pane [ Spacing.mt3 ]
+                       (viewResume model)
+                }
             ]
-        |> Navbar.view model.navbarState
-
-menuItem : Model -> String -> (List (Attribute msg) -> List (Html msg) -> Navbar.Item msg)
-menuItem model path =
-    case Url.Parser.parse routeParser model.url of
-        Just Project ->
-            case path of
-                "/projects" ->
-                    Navbar.itemLinkActive
-                _ ->
-                    Navbar.itemLink
-        Just Resume ->
-            case path of 
-                "/resume" ->
-                    Navbar.itemLinkActive
-                _ ->
-                    Navbar.itemLink
-        Nothing ->
-            Navbar.itemLink
-
-type Route 
-    = Project
-    | Resume
-
-routeParser : Parser (Route -> a) a
-routeParser =
-    oneOf
-        [ Url.Parser.map Project (Url.Parser.s "projects")
-        , Url.Parser.map Resume (Url.Parser.s "resume")
-        ]
-
-viewHandler : Model -> List (Html Msg)
-viewHandler model =
-    [ CDN.stylesheet
-    , menu model
-    ] ++ 
-    case Url.Parser.parse routeParser model.url of
-        Just Project ->
-            viewProject model 
-        Just Resume ->
-            viewResume model 
-        Nothing ->
-            viewHome model
+        |> Tab.attrs [ class "tab" ]
+        |> Tab.view model.tabState
 
 defaultRowAlignment : List (Row.Option msg)
 defaultRowAlignment =
@@ -233,7 +207,7 @@ projectCard model prj =
                                         "" -> 
                                             text ""
                                         _ ->
-                                            img [src prj.img, width 64, height 64] [] 
+                                            img [src prj.img, class "img-project" ] [] 
                                     ]
                                 , Grid.col [Col.xs1] []
                                 , Grid.col []
@@ -251,9 +225,9 @@ projectCard model prj =
                     , Accordion.block [ Block.align Text.alignXsLeft ]
                         [ case prj.srcType of
                             GitHub ->
-                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", width 24, height 24] [])
+                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] [])
                             GitLab ->
-                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", width 24, height 24] [])
+                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] [])
                             Other ->
                                 Block.text [] [text ""]
                         , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
