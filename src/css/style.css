@@ -1,25 +1,31 @@
 /* xs */
-img {
+.img-project {
     width: 16px;
     height: auto;
 }
 /* sm */
 @media (min-width: 768px) {
-    img {
-        width: 24px;
+    .img-project {
+        width: 16px;
     }
 }
 /* md */
 @media (min-width: 992px) {
-    img {
-        width: 32px;
+    .img-project {
+        width: 24px;
     }
 }
 /* lg */
 @media (min-width: 1200px) {
-    img {
+    .img-project {
         width: 64px;
     }
+}
+
+.img-icon {
+    width: 32px;
+    height: 32px;
+    padding: 5px;
 }
 
 .tab {

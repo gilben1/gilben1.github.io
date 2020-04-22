@@ -207,7 +207,7 @@ projectCard model prj =
                                         "" -> 
                                             text ""
                                         _ ->
-                                            img [src prj.img, width 64, height 64] [] 
+                                            img [src prj.img, class "img-project" ] [] 
                                     ]
                                 , Grid.col [Col.xs1] []
                                 , Grid.col []
@@ -225,9 +225,9 @@ projectCard model prj =
                     , Accordion.block [ Block.align Text.alignXsLeft ]
                         [ case prj.srcType of
                             GitHub ->
-                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", width 24, height 24] [])
+                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] [])
                             GitLab ->
-                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", width 24, height 24] [])
+                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] [])
                             Other ->
                                 Block.text [] [text ""]
                         , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
