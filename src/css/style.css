@@ -1,7 +1,12 @@
-.active {
-    background-color: var(--secondary);
-}
-
 img {
     padding-right: 5px;
+}
+
+.tab {
+    background-color: var(--primary);
+    color: white;
+}
+
+.tab-link:not(.active){
+    color: white
 }
