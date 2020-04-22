@@ -1,5 +1,25 @@
+/* xs */
 img {
-    padding-right: 5px;
+    width: 16px;
+    height: auto;
+}
+/* sm */
+@media (min-width: 768px) {
+    img {
+        width: 24px;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+    img {
+        width: 32px;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+    img {
+        width: 64px;
+    }
 }
 
 .tab {
