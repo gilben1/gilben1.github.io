@@ -5,14 +5,12 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
-import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Text as Text
-import Bootstrap.Navbar as Navbar
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
@@ -123,7 +121,6 @@ defaultRowAlignment =
 
 defaultColAlignment : List (Col.Option msg)
 defaultColAlignment =
-    --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
     [Col.textAlign Text.alignXsCenter]
 
 type ProjectSource
@@ -146,7 +143,7 @@ type alias ProjectCard =
 viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xs2] []
+        [ Grid.col [Col.xl2] []
         , Grid.col defaultColAlignment
             [ projectCard model 
                 { id = "rbtbounce"
@@ -178,15 +175,15 @@ viewProject model =
                 { id = "shtab"
                 , title = "shTab"
                 , desc = "Shell new tab page extension for Firefox"
-                , img = "https://image.flaticon.com/icons/svg/2535/2535381.svg"
+                , img = "src/assets/system.png"
                 , mainLink = "https://addons.mozilla.org/en-US/firefox/addon/shtab/"
-                , mainLinkText = "Install now! (Temporarily disabled)"
+                , mainLinkText = "Mozilla Listing"
                 , srcLink = "https://gitlab.com/gilben/shTab"
                 , srcLinkText = "Gitlab Repository"
                 , srcType = GitLab
                 }
             ]
-        , Grid.col [Col.xs2] []
+        , Grid.col [Col.xl2] []
         ]
     ]
 
@@ -199,22 +196,16 @@ projectCard model prj =
                 { id = prj.id
                 , options = []
                 , header =
-                    Accordion.header [] <| Accordion.toggle [] 
-                        [ Grid.container []
+                    Accordion.toggle [] 
+                        [ Grid.containerFluid []
                             [ Grid.row [Row.middleXs] 
-                                [ Grid.col []
-                                    [ case prj.img of 
-                                        "" -> 
-                                            text ""
-                                        _ ->
-                                            img [src prj.img, class "img-project" ] [] 
-                                    ]
-                                , Grid.col [Col.xs1] []
-                                , Grid.col []
+                                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
                                     [ text prj.title ]
                                 ]
                             ]
                         ]
+                    |> Accordion.header []
+                    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
                 , blocks =
                     [ Accordion.block [ Block.align Text.alignXsLeft ]
                         [ Block.text [] [ text prj.desc ] 
