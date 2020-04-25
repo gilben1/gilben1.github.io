@@ -5,14 +5,12 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
-import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Text as Text
-import Bootstrap.Navbar as Navbar
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
@@ -123,7 +121,6 @@ defaultRowAlignment =
 
 defaultColAlignment : List (Col.Option msg)
 defaultColAlignment =
-    --[Col.middleXs, Col.xs6, Col.textAlign Text.alignXsCenter]
     [Col.textAlign Text.alignXsCenter]
 
 type ProjectSource
@@ -146,7 +143,7 @@ type alias ProjectCard =
 viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xs2] []
+        [ Grid.col [Col.xl2] []
         , Grid.col defaultColAlignment
             [ projectCard model 
                 { id = "rbtbounce"
@@ -167,7 +164,7 @@ viewProject model =
                 , desc = "This website! Written in Elm using Elm Bootstrap 4"
                 , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
                 , mainLink = "https://gilben1.github.io"
-                , mainLinkText = "Link here!"
+                , mainLinkText = "Link"
                 , srcLink = "https://github.com/gilben1/gilben1.github.io"
                 , srcLinkText = "Github Repository"
                 , srcType = GitHub
@@ -178,15 +175,15 @@ viewProject model =
                 { id = "shtab"
                 , title = "shTab"
                 , desc = "Shell new tab page extension for Firefox"
-                , img = "https://image.flaticon.com/icons/svg/2535/2535381.svg"
-                , mainLink = "https://addons.mozilla.org/en-US/firefox/addon/shtab/"
-                , mainLinkText = "Install now! (Temporarily disabled)"
+                , img = "src/assets/system.png"
+                , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
+                , mainLinkText = "Latest Release"
                 , srcLink = "https://gitlab.com/gilben/shTab"
                 , srcLinkText = "Gitlab Repository"
                 , srcType = GitLab
                 }
             ]
-        , Grid.col [Col.xs2] []
+        , Grid.col [Col.xl2] []
         ]
     ]
 
@@ -199,38 +196,38 @@ projectCard model prj =
                 { id = prj.id
                 , options = []
                 , header =
-                    Accordion.header [] <| Accordion.toggle [] 
-                        [ Grid.container []
+                    Accordion.toggle [] 
+                        [ Grid.containerFluid []
                             [ Grid.row [Row.middleXs] 
-                                [ Grid.col []
-                                    [ case prj.img of 
-                                        "" -> 
-                                            text ""
-                                        _ ->
-                                            img [src prj.img, class "img-project" ] [] 
-                                    ]
-                                , Grid.col [Col.xs1] []
-                                , Grid.col []
+                                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
                                     [ text prj.title ]
                                 ]
                             ]
                         ]
+                    |> Accordion.header []
+                    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
                 , blocks =
                     [ Accordion.block [ Block.align Text.alignXsLeft ]
                         [ Block.text [] [ text prj.desc ] 
                         ]
                     , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.link [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                        ]
-                    , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ case prj.srcType of
-                            GitHub ->
-                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] [])
-                            GitLab ->
-                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] [])
-                            Other ->
-                                Block.text [] [text ""]
-                        , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                        [ Block.text [] <| [ Grid.row [Row.middleXs]
+                                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
+                                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                                                        ]
+                                                    , Grid.col [Col.xs1] []
+                                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
+                                                        [ case prj.srcType of
+                                                            GitHub ->
+                                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                            GitLab ->
+                                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                            Other ->
+                                                                text ""
+                                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                                                        ]
+                                                    ]
+                                            ]
                         ]
                     ]
                 }

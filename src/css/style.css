@@ -1,26 +1,7 @@
-/* xs */
-.img-project {
-    width: 16px;
-    height: auto;
+.img-responsive {
+    max-height: 64px;
 }
-/* sm */
-@media (min-width: 768px) {
-    .img-project {
-        width: 16px;
-    }
-}
-/* md */
-@media (min-width: 992px) {
-    .img-project {
-        width: 24px;
-    }
-}
-/* lg */
-@media (min-width: 1200px) {
-    .img-project {
-        width: 64px;
-    }
-}
+
 
 .img-icon {
     width: 32px;
