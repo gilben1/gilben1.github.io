@@ -164,7 +164,7 @@ viewProject model =
                 , desc = "This website! Written in Elm using Elm Bootstrap 4"
                 , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
                 , mainLink = "https://gilben1.github.io"
-                , mainLinkText = "Link here!"
+                , mainLinkText = "Link"
                 , srcLink = "https://github.com/gilben1/gilben1.github.io"
                 , srcLinkText = "Github Repository"
                 , srcType = GitHub
@@ -176,8 +176,8 @@ viewProject model =
                 , title = "shTab"
                 , desc = "Shell new tab page extension for Firefox"
                 , img = "src/assets/system.png"
-                , mainLink = "https://addons.mozilla.org/en-US/firefox/addon/shtab/"
-                , mainLinkText = "Mozilla Listing"
+                , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
+                , mainLinkText = "Latest Release"
                 , srcLink = "https://gitlab.com/gilben/shTab"
                 , srcLinkText = "Gitlab Repository"
                 , srcType = GitLab
@@ -211,17 +211,23 @@ projectCard model prj =
                         [ Block.text [] [ text prj.desc ] 
                         ]
                     , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.link [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                        ]
-                    , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ case prj.srcType of
-                            GitHub ->
-                                Block.custom (img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] [])
-                            GitLab ->
-                                Block.custom (img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] [])
-                            Other ->
-                                Block.text [] [text ""]
-                        , Block.link [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                        [ Block.text [] <| [ Grid.row [Row.middleXs]
+                                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
+                                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                                                        ]
+                                                    , Grid.col [Col.xs1] []
+                                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
+                                                        [ case prj.srcType of
+                                                            GitHub ->
+                                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                            GitLab ->
+                                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                            Other ->
+                                                                text ""
+                                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                                                        ]
+                                                    ]
+                                            ]
                         ]
                     ]
                 }
