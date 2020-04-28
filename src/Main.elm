@@ -195,45 +195,52 @@ projectCard model prj =
             [ Accordion.card
                 { id = prj.id
                 , options = []
-                , header =
-                    Accordion.toggle [] 
-                        [ Grid.containerFluid []
-                            [ Grid.row [Row.middleXs] 
-                                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
-                                    [ text prj.title ]
-                                ]
-                            ]
-                        ]
-                    |> Accordion.header []
-                    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
-                , blocks =
-                    [ Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.text [] [ text prj.desc ] 
-                        ]
-                    , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.text [] <| [ Grid.row [Row.middleXs]
-                                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
-                                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                                                        ]
-                                                    , Grid.col [Col.xs1] []
-                                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
-                                                        [ case prj.srcType of
-                                                            GitHub ->
-                                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                                            GitLab ->
-                                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                                            Other ->
-                                                                text ""
-                                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
-                                                        ]
-                                                    ]
-                                            ]
-                        ]
-                    ]
+                , header = projectCardHeader model prj
+                , blocks = projectCardContent model prj
                 }
             ]
         |> Accordion.onlyOneOpen
         |> Accordion.view model.accordionState
+
+projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
+projectCardHeader model prj =
+    Accordion.toggle [] 
+        [ Grid.containerFluid []
+            [ Grid.row [Row.middleXs] 
+                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
+                    [ text prj.title ]
+                ]
+            ]
+        ]
+    |> Accordion.header []
+    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
+
+projectCardContent : Model -> ProjectCard -> List (Accordion.CardBlock msg)
+projectCardContent model prj =
+    [ Accordion.block [ Block.align Text.alignXsLeft ]
+        [ Block.text [] [ text prj.desc ] 
+        ]
+    , Accordion.block [ Block.align Text.alignXsLeft ]
+        [ Block.text [] <| [ Grid.row [Row.middleXs]
+                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
+                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                                        ]
+                                    , Grid.col [Col.xs1] []
+                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
+                                        [ case prj.srcType of
+                                            GitHub ->
+                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                            GitLab ->
+                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                            Other ->
+                                                text ""
+                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                                        ]
+                                    ]
+                            ]
+        ]
+    ]
+
 
 viewResume : Model -> List (Html Msg)
 viewResume model =
