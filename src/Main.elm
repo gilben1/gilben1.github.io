@@ -14,6 +14,8 @@ import Bootstrap.Text as Text
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
+import Bootstrap.Carousel as Carousel
+import Bootstrap.Carousel.Slide as Slide
 
 main : Program () Model Msg
 main =
@@ -29,6 +31,7 @@ main =
 type alias Model =
     { tabState : Tab.State
     , accordionState : Accordion.State
+    , carouselState : Carousel.State
     , url : Url.Url
     , key : Nav.Key
     }
@@ -38,6 +41,7 @@ init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
+         , carouselState = Carousel.initialState
          , url = url
          , key = key
         }, Cmd.none)
@@ -45,6 +49,7 @@ init toMsg url key =
 type Msg
     = TabMsg Tab.State
     | AccordionMsg Accordion.State
+    | CarouselMsg Carousel.Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
@@ -54,7 +59,9 @@ update msg model =
         TabMsg state ->
             ( { model | tabState = state }, Cmd.none)
         AccordionMsg state ->
-            ( { model | accordionState = state } , Cmd.none )
+            ( { model | accordionState = state }, Cmd.none )
+        CarouselMsg subMsg ->
+            ( { model | carouselState = Carousel.update subMsg model.carouselState }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -71,6 +78,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch [ Tab.subscriptions model.tabState TabMsg
               , Accordion.subscriptions model.accordionState AccordionMsg
+              , Carousel.subscriptions model.carouselState CarouselMsg
               ]
 
 view : Model -> Browser.Document Msg
@@ -257,7 +265,30 @@ viewResume model =
 
 viewHome : Model -> List (Html Msg)
 viewHome model =
-    [ Grid.row defaultRowAlignment
+    [ Grid.row [Row.topXs]
+        [ Grid.col [Col.xs4] []
+        , Grid.col [Col.xs]
+            [Carousel.config CarouselMsg []
+                |> Carousel.slides
+                    [ Slide.config [] (Slide.image [ class "img-fluid" ] "src/assets/slide1.jpg")
+                        |> Slide.caption []
+                            [ h4 [] [ text "Placeholder photo 1" ]
+                            , a [href "https://unsplash.com/@marcushjelm_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"] [ text "Source: Marcus Hjelm on Unsplash" ] 
+                            ]
+                    , Slide.config [] (Slide.image [ class "img-fluid" ] "src/assets/slide2.jpg")
+                        |> Slide.caption []
+                            [ h4 [] [ text "Placeholder photo 2" ]
+                            , a [href "https://unsplash.com/@rezphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"] [ text "Source: REZ on Unsplash" ] 
+                            ]
+                    ]
+                |> Carousel.withIndicators
+                |> Carousel.withControls
+                |> Carousel.view model.carouselState
+            ]
+        , Grid.col [Col.xs4] []
+        ]
+    , Grid.row [] []
+    , Grid.row [Row.bottomXs]
         [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []
