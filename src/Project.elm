@@ -1,24 +1,16 @@
 module Project exposing (..)
 
-import Common as C
+import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
 
-import Browser
-import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Url
 
-import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
-import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Text as Text
-import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
-import Bootstrap.Carousel as Carousel
-import Bootstrap.Carousel.Slide as Slide
 
 type ProjectSource
     = GitHub
@@ -37,11 +29,11 @@ type alias ProjectCard =
     , srcType : ProjectSource
     }
 
-viewProject : C.Model -> List (Html C.Msg)
+viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row [Row.middleXs]
         [ Grid.col [Col.xl2] []
-        , Grid.col C.defaultColAlignment
+        , Grid.col defaultColAlignment
             [ projectCard model 
                 { id = "rbtbounce"
                 , title = "Robot Bounce"
@@ -54,7 +46,7 @@ viewProject model =
                 , srcType = GitHub
                 }
             ]
-        , Grid.col C.defaultColAlignment
+        , Grid.col defaultColAlignment
             [ projectCard model
                 { id = "elmsite"
                 , title = "gilben1.github.io"
@@ -67,7 +59,7 @@ viewProject model =
                 , srcType = GitHub
                 }
             ]
-        , Grid.col C.defaultColAlignment
+        , Grid.col defaultColAlignment
             [ projectCard model
                 { id = "shtab"
                 , title = "shTab"
@@ -84,9 +76,9 @@ viewProject model =
         ]
     ]
 
-projectCard : C.Model -> ProjectCard -> Html C.Msg
+projectCard : Model -> ProjectCard -> Html Msg
 projectCard model prj =
-    Accordion.config C.AccordionMsg
+    Accordion.config AccordionMsg
         |> Accordion.withAnimation
         |> Accordion.cards
             [ Accordion.card
@@ -99,7 +91,7 @@ projectCard model prj =
         |> Accordion.onlyOneOpen
         |> Accordion.view model.accordionState
 
-projectCardHeader : C.Model -> ProjectCard -> Accordion.Header msg
+projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
 projectCardHeader model prj =
     Accordion.toggle [] 
         [ Grid.containerFluid []
@@ -112,7 +104,7 @@ projectCardHeader model prj =
     |> Accordion.header []
     |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
 
-projectCardContent : C.Model -> ProjectCard -> List (Accordion.CardBlock msg)
+projectCardContent : Model -> ProjectCard -> List (Accordion.CardBlock msg)
 projectCardContent model prj =
     [ Accordion.block [ Block.align Text.alignXsLeft ]
         [ Block.text [] [ text prj.desc ] 

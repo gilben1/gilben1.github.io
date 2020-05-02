@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Common as C
+import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
 import Project as Prj
 
 import Browser
@@ -14,27 +14,25 @@ import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Spacing as Spacing
-import Bootstrap.Text as Text
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
-import Bootstrap.Card.Block as Block 
 import Bootstrap.Carousel as Carousel
 import Bootstrap.Carousel.Slide as Slide
 
 
-main : Program () C.Model C.Msg
+main : Program () Model Msg
 main =
     Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
-        , onUrlChange = C.UrlChanged
-        , onUrlRequest = C.LinkClicked
+        , onUrlChange = UrlChanged
+        , onUrlRequest = LinkClicked
         }
 
  
-init : () -> Url.Url -> Nav.Key -> ( C.Model, Cmd C.Msg )
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
@@ -44,35 +42,35 @@ init toMsg url key =
         }, Cmd.none)
 
 
-update : C.Msg -> C.Model -> ( C.Model, Cmd C.Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        C.TabMsg state ->
+        TabMsg state ->
             ( { model | tabState = state }, Cmd.none)
-        C.AccordionMsg state ->
+        AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
-        C.CarouselMsg subMsg ->
+        CarouselMsg subMsg ->
             ( { model | carouselState = Carousel.update subMsg model.carouselState }, Cmd.none )
 
-        C.LinkClicked urlRequest ->
+        LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
                 Browser.External href ->
                     ( model, Nav.load href )
-        C.UrlChanged url ->
+        UrlChanged url ->
             ( { model | url = url }
             , Cmd.none
             )
 
-subscriptions : C.Model -> Sub C.Msg
+subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch [ Tab.subscriptions model.tabState C.TabMsg
-              , Accordion.subscriptions model.accordionState C.AccordionMsg
-              , Carousel.subscriptions model.carouselState C.CarouselMsg
+    Sub.batch [ Tab.subscriptions model.tabState TabMsg
+              , Accordion.subscriptions model.accordionState AccordionMsg
+              , Carousel.subscriptions model.carouselState CarouselMsg
               ]
 
-view : C.Model -> Browser.Document C.Msg
+view : Model -> Browser.Document Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
@@ -83,9 +81,9 @@ view model =
         ]
     }
 
-menu : C.Model -> Html C.Msg
+menu : Model -> Html Msg
 menu model =
-    Tab.config C.TabMsg
+    Tab.config TabMsg
         |> Tab.withAnimation
         |> Tab.center
         |> Tab.items
@@ -114,15 +112,15 @@ menu model =
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
 
-viewResume : C.Model -> List (Html C.Msg)
+viewResume : Model -> List (Html Msg)
 viewResume model =
-    [ Grid.row C.defaultRowAlignment
-        [ Grid.col C.defaultColAlignment
+    [ Grid.row defaultRowAlignment
+        [ Grid.col defaultColAlignment
             [ b [] [ text "This is a virtual resume!" ] 
             , br [] []
             , text "This is very much work in progress!"
             ]
-        , Grid.col C.defaultColAlignment
+        , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
     ]
@@ -135,25 +133,25 @@ type alias HomeSlide =
     }
 
 
-viewHome : C.Model -> List (Html C.Msg)
+viewHome : Model -> List (Html Msg)
 viewHome model =
     [ Grid.row [Row.topXs] (homeSlideShow model)
     , Grid.row [Row.bottomXs]
-        [ Grid.col C.defaultColAlignment
+        [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []
             , text "This is very much work in progress!"
             ]
-        , Grid.col C.defaultColAlignment
+        , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
     ]
 
-homeSlideShow : C.Model -> List (Grid.Column C.Msg)
+homeSlideShow : Model -> List (Grid.Column Msg)
 homeSlideShow model =
     [ Grid.col [Col.xs] []
     , Grid.col [ Col.xs ]
-        [ Carousel.config C.CarouselMsg []
+        [ Carousel.config CarouselMsg []
             |> Carousel.slides
                 [ homeSlide
                     { slideRef = "src/assets/slide1.jpg"

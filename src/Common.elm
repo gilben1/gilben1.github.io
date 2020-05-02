@@ -1,4 +1,4 @@
-module Common exposing (..)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment)
 
 import Browser
 import Browser.Navigation as Nav
