@@ -2,6 +2,9 @@
     max-height: 64px;
 }
 
+.img-slideshow {
+    max-height: 750px;
+}
 
 .img-icon {
     width: 32px;
@@ -16,4 +19,12 @@
 
 .tab-link:not(.active){
     color: white
+}
+
+.slideshow-caption {
+    color: white;
+}
+
+.slideshow-caption-background {
+    background: rgba(0, 0, 0, 0.8);
 }
