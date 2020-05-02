@@ -273,12 +273,7 @@ type alias HomeSlide =
 
 viewHome : Model -> List (Html Msg)
 viewHome model =
-    [ Grid.row [Row.topXs]
-        [ Grid.col [Col.xs] []
-        , Grid.col [Col.xs]
-            [ homeSlideShow model ]
-        , Grid.col [Col.xs] []
-        ]
+    [ Grid.row [Row.topXs] (homeSlideShow model)
     , Grid.row [Row.bottomXs]
         [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
@@ -290,25 +285,30 @@ viewHome model =
         ]
     ]
 
-homeSlideShow : Model -> Html Msg
+homeSlideShow : Model -> List (Grid.Column Msg)
 homeSlideShow model =
-    Carousel.config CarouselMsg []
-        |> Carousel.slides
-            [ homeSlide
-                { slideRef = "src/assets/slide1.jpg"
-                , caption1 = "Placeholder photo 1" 
-                , caption2 = "Source: Marcus Hjelm on Unsplash"
-                , caption2Ref = "https://unsplash.com/@marcushjelm_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-                }
-            , homeSlide
-                { slideRef = "src/assets/slide2.jpg"
-                , caption1 = "Placeholder photo 2" 
-                , caption2 = "Source: REZ on Unsplash"
-                , caption2Ref = "https://unsplash.com/@rezphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-                }
-            ]
-        |> Carousel.withControls
-        |> Carousel.view model.carouselState
+    [ Grid.col [Col.xs] []
+    , Grid.col [ Col.xs ]
+        [ Carousel.config CarouselMsg []
+            |> Carousel.slides
+                [ homeSlide
+                    { slideRef = "src/assets/slide1.jpg"
+                    , caption1 = "Placeholder photo 1" 
+                    , caption2 = "Source: Marcus Hjelm on Unsplash"
+                    , caption2Ref = "https://unsplash.com/@marcushjelm_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    }
+                , homeSlide
+                    { slideRef = "src/assets/slide2.jpg"
+                    , caption1 = "Placeholder photo 2" 
+                    , caption2 = "Source: REZ on Unsplash"
+                    , caption2Ref = "https://unsplash.com/@rezphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    }
+                ]
+            |> Carousel.withControls
+            |> Carousel.view model.carouselState
+        ]
+    , Grid.col [ Col.xs ] []
+    ]
 
 homeSlide : HomeSlide -> Slide.Config msg
 homeSlide sld =
