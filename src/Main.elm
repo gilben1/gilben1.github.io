@@ -1,10 +1,14 @@
 module Main exposing (..)
 
+import Common as C
+import Project as Prj
+
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
@@ -17,27 +21,20 @@ import Bootstrap.Card.Block as Block
 import Bootstrap.Carousel as Carousel
 import Bootstrap.Carousel.Slide as Slide
 
-main : Program () Model Msg
+
+main : Program () C.Model C.Msg
 main =
     Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
-        , onUrlChange = UrlChanged
-        , onUrlRequest = LinkClicked
+        , onUrlChange = C.UrlChanged
+        , onUrlRequest = C.LinkClicked
         }
 
-type alias Model =
-    { tabState : Tab.State
-    , accordionState : Accordion.State
-    , carouselState : Carousel.State
-    , url : Url.Url
-    , key : Nav.Key
-    }
-
  
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init : () -> Url.Url -> Nav.Key -> ( C.Model, Cmd C.Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
@@ -46,42 +43,36 @@ init toMsg url key =
          , key = key
         }, Cmd.none)
 
-type Msg
-    = TabMsg Tab.State
-    | AccordionMsg Accordion.State
-    | CarouselMsg Carousel.Msg
-    | LinkClicked Browser.UrlRequest
-    | UrlChanged Url.Url
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : C.Msg -> C.Model -> ( C.Model, Cmd C.Msg )
 update msg model =
     case msg of
-        TabMsg state ->
+        C.TabMsg state ->
             ( { model | tabState = state }, Cmd.none)
-        AccordionMsg state ->
+        C.AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
-        CarouselMsg subMsg ->
+        C.CarouselMsg subMsg ->
             ( { model | carouselState = Carousel.update subMsg model.carouselState }, Cmd.none )
 
-        LinkClicked urlRequest ->
+        C.LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
                 Browser.External href ->
                     ( model, Nav.load href )
-        UrlChanged url ->
+        C.UrlChanged url ->
             ( { model | url = url }
             , Cmd.none
             )
 
-subscriptions : Model -> Sub Msg
+subscriptions : C.Model -> Sub C.Msg
 subscriptions model =
-    Sub.batch [ Tab.subscriptions model.tabState TabMsg
-              , Accordion.subscriptions model.accordionState AccordionMsg
-              , Carousel.subscriptions model.carouselState CarouselMsg
+    Sub.batch [ Tab.subscriptions model.tabState C.TabMsg
+              , Accordion.subscriptions model.accordionState C.AccordionMsg
+              , Carousel.subscriptions model.carouselState C.CarouselMsg
               ]
 
-view : Model -> Browser.Document Msg
+view : C.Model -> Browser.Document C.Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
@@ -92,9 +83,9 @@ view model =
         ]
     }
 
-menu : Model -> Html Msg
+menu : C.Model -> Html C.Msg
 menu model =
-    Tab.config TabMsg
+    Tab.config C.TabMsg
         |> Tab.withAnimation
         |> Tab.center
         |> Tab.items
@@ -110,7 +101,7 @@ menu model =
                 , link = Tab.link [ class "tab-link" ] [ text "Projects" ]
                 , pane =
                     Tab.pane [ Spacing.mt3 ]
-                       (viewProject model)
+                       (Prj.viewProject model)
                 }
             , Tab.item
                 { id = "tabResumes"
@@ -123,142 +114,15 @@ menu model =
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
 
-defaultRowAlignment : List (Row.Option msg)
-defaultRowAlignment =
-    [Row.middleXs]
-
-defaultColAlignment : List (Col.Option msg)
-defaultColAlignment =
-    [Col.textAlign Text.alignXsCenter]
-
-type ProjectSource
-    = GitHub
-    | GitLab
-    | Other
-
-type alias ProjectCard = 
-    { id : String
-    , title : String
-    , desc : String
-    , img : String
-    , mainLink : String
-    , mainLinkText : String
-    , srcLink : String
-    , srcLinkText : String
-    , srcType : ProjectSource
-    }
-
-viewProject : Model -> List (Html Msg)
-viewProject model =
-    [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xl2] []
-        , Grid.col defaultColAlignment
-            [ projectCard model 
-                { id = "rbtbounce"
-                , title = "Robot Bounce"
-                , desc = "Robot puzzle game inspired by Ricohet Robots"
-                , img = "src/assets/robot_bounce.png"
-                , mainLink = "https://gilben1.github.io/robot-bounce/"
-                , mainLinkText = "Play now!"
-                , srcLink = "https://github.com/gilben1/robot-bounce"
-                , srcLinkText = "Github Repository"
-                , srcType = GitHub
-                }
-            ]
-        , Grid.col defaultColAlignment
-            [ projectCard model
-                { id = "elmsite"
-                , title = "gilben1.github.io"
-                , desc = "This website! Written in Elm using Elm Bootstrap 4"
-                , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
-                , mainLink = "https://gilben1.github.io"
-                , mainLinkText = "Link"
-                , srcLink = "https://github.com/gilben1/gilben1.github.io"
-                , srcLinkText = "Github Repository"
-                , srcType = GitHub
-                }
-            ]
-        , Grid.col defaultColAlignment
-            [ projectCard model
-                { id = "shtab"
-                , title = "shTab"
-                , desc = "Shell new tab page extension for Firefox"
-                , img = "src/assets/system.png"
-                , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
-                , mainLinkText = "Latest Release"
-                , srcLink = "https://gitlab.com/gilben/shTab"
-                , srcLinkText = "Gitlab Repository"
-                , srcType = GitLab
-                }
-            ]
-        , Grid.col [Col.xl2] []
-        ]
-    ]
-
-projectCard : Model -> ProjectCard -> Html Msg
-projectCard model prj =
-    Accordion.config AccordionMsg
-        |> Accordion.withAnimation
-        |> Accordion.cards
-            [ Accordion.card
-                { id = prj.id
-                , options = []
-                , header = projectCardHeader model prj
-                , blocks = projectCardContent model prj
-                }
-            ]
-        |> Accordion.onlyOneOpen
-        |> Accordion.view model.accordionState
-
-projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
-projectCardHeader model prj =
-    Accordion.toggle [] 
-        [ Grid.containerFluid []
-            [ Grid.row [Row.middleXs] 
-                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
-                    [ text prj.title ]
-                ]
-            ]
-        ]
-    |> Accordion.header []
-    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
-
-projectCardContent : Model -> ProjectCard -> List (Accordion.CardBlock msg)
-projectCardContent model prj =
-    [ Accordion.block [ Block.align Text.alignXsLeft ]
-        [ Block.text [] [ text prj.desc ] 
-        ]
-    , Accordion.block [ Block.align Text.alignXsLeft ]
-        [ Block.text [] <| [ Grid.row [Row.middleXs]
-                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
-                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                                        ]
-                                    , Grid.col [Col.xs1] []
-                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
-                                        [ case prj.srcType of
-                                            GitHub ->
-                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                            GitLab ->
-                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                            Other ->
-                                                text ""
-                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
-                                        ]
-                                    ]
-                            ]
-        ]
-    ]
-
-
-viewResume : Model -> List (Html Msg)
+viewResume : C.Model -> List (Html C.Msg)
 viewResume model =
-    [ Grid.row defaultRowAlignment
-        [ Grid.col defaultColAlignment
+    [ Grid.row C.defaultRowAlignment
+        [ Grid.col C.defaultColAlignment
             [ b [] [ text "This is a virtual resume!" ] 
             , br [] []
             , text "This is very much work in progress!"
             ]
-        , Grid.col defaultColAlignment
+        , Grid.col C.defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
     ]
@@ -271,25 +135,25 @@ type alias HomeSlide =
     }
 
 
-viewHome : Model -> List (Html Msg)
+viewHome : C.Model -> List (Html C.Msg)
 viewHome model =
     [ Grid.row [Row.topXs] (homeSlideShow model)
     , Grid.row [Row.bottomXs]
-        [ Grid.col defaultColAlignment
+        [ Grid.col C.defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []
             , text "This is very much work in progress!"
             ]
-        , Grid.col defaultColAlignment
+        , Grid.col C.defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
     ]
 
-homeSlideShow : Model -> List (Grid.Column Msg)
+homeSlideShow : C.Model -> List (Grid.Column C.Msg)
 homeSlideShow model =
     [ Grid.col [Col.xs] []
     , Grid.col [ Col.xs ]
-        [ Carousel.config CarouselMsg []
+        [ Carousel.config C.CarouselMsg []
             |> Carousel.slides
                 [ homeSlide
                     { slideRef = "src/assets/slide1.jpg"
