@@ -14,6 +14,8 @@ import Bootstrap.Text as Text
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
+import Bootstrap.Carousel as Carousel
+import Bootstrap.Carousel.Slide as Slide
 
 main : Program () Model Msg
 main =
@@ -29,6 +31,7 @@ main =
 type alias Model =
     { tabState : Tab.State
     , accordionState : Accordion.State
+    , carouselState : Carousel.State
     , url : Url.Url
     , key : Nav.Key
     }
@@ -38,6 +41,7 @@ init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
+         , carouselState = Carousel.initialState
          , url = url
          , key = key
         }, Cmd.none)
@@ -45,6 +49,7 @@ init toMsg url key =
 type Msg
     = TabMsg Tab.State
     | AccordionMsg Accordion.State
+    | CarouselMsg Carousel.Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
@@ -54,7 +59,9 @@ update msg model =
         TabMsg state ->
             ( { model | tabState = state }, Cmd.none)
         AccordionMsg state ->
-            ( { model | accordionState = state } , Cmd.none )
+            ( { model | accordionState = state }, Cmd.none )
+        CarouselMsg subMsg ->
+            ( { model | carouselState = Carousel.update subMsg model.carouselState }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -71,6 +78,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch [ Tab.subscriptions model.tabState TabMsg
               , Accordion.subscriptions model.accordionState AccordionMsg
+              , Carousel.subscriptions model.carouselState CarouselMsg
               ]
 
 view : Model -> Browser.Document Msg
@@ -195,45 +203,52 @@ projectCard model prj =
             [ Accordion.card
                 { id = prj.id
                 , options = []
-                , header =
-                    Accordion.toggle [] 
-                        [ Grid.containerFluid []
-                            [ Grid.row [Row.middleXs] 
-                                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
-                                    [ text prj.title ]
-                                ]
-                            ]
-                        ]
-                    |> Accordion.header []
-                    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
-                , blocks =
-                    [ Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.text [] [ text prj.desc ] 
-                        ]
-                    , Accordion.block [ Block.align Text.alignXsLeft ]
-                        [ Block.text [] <| [ Grid.row [Row.middleXs]
-                                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
-                                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                                                        ]
-                                                    , Grid.col [Col.xs1] []
-                                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
-                                                        [ case prj.srcType of
-                                                            GitHub ->
-                                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                                            GitLab ->
-                                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                                            Other ->
-                                                                text ""
-                                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
-                                                        ]
-                                                    ]
-                                            ]
-                        ]
-                    ]
+                , header = projectCardHeader model prj
+                , blocks = projectCardContent model prj
                 }
             ]
         |> Accordion.onlyOneOpen
         |> Accordion.view model.accordionState
+
+projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
+projectCardHeader model prj =
+    Accordion.toggle [] 
+        [ Grid.containerFluid []
+            [ Grid.row [Row.middleXs] 
+                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
+                    [ text prj.title ]
+                ]
+            ]
+        ]
+    |> Accordion.header []
+    |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
+
+projectCardContent : Model -> ProjectCard -> List (Accordion.CardBlock msg)
+projectCardContent model prj =
+    [ Accordion.block [ Block.align Text.alignXsLeft ]
+        [ Block.text [] [ text prj.desc ] 
+        ]
+    , Accordion.block [ Block.align Text.alignXsLeft ]
+        [ Block.text [] <| [ Grid.row [Row.middleXs]
+                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
+                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                                        ]
+                                    , Grid.col [Col.xs1] []
+                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
+                                        [ case prj.srcType of
+                                            GitHub ->
+                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                            GitLab ->
+                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                            Other ->
+                                                text ""
+                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
+                                        ]
+                                    ]
+                            ]
+        ]
+    ]
+
 
 viewResume : Model -> List (Html Msg)
 viewResume model =
@@ -248,9 +263,18 @@ viewResume model =
         ]
     ]
 
+type alias HomeSlide =
+    { slideRef : String
+    , caption1 : String
+    , caption2 : String
+    , caption2Ref : String
+    }
+
+
 viewHome : Model -> List (Html Msg)
 viewHome model =
-    [ Grid.row defaultRowAlignment
+    [ Grid.row [Row.topXs] (homeSlideShow model)
+    , Grid.row [Row.bottomXs]
         [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []
@@ -261,3 +285,40 @@ viewHome model =
         ]
     ]
 
+homeSlideShow : Model -> List (Grid.Column Msg)
+homeSlideShow model =
+    [ Grid.col [Col.xs] []
+    , Grid.col [ Col.xs ]
+        [ Carousel.config CarouselMsg []
+            |> Carousel.slides
+                [ homeSlide
+                    { slideRef = "src/assets/slide1.jpg"
+                    , caption1 = "Placeholder photo 1" 
+                    , caption2 = "Source: Marcus Hjelm on Unsplash"
+                    , caption2Ref = "https://unsplash.com/@marcushjelm_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    }
+                , homeSlide
+                    { slideRef = "src/assets/slide2.jpg"
+                    , caption1 = "Placeholder photo 2" 
+                    , caption2 = "Source: REZ on Unsplash"
+                    , caption2Ref = "https://unsplash.com/@rezphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    }
+                ]
+            |> Carousel.withControls
+            |> Carousel.view model.carouselState
+        ]
+    , Grid.col [ Col.xs ] []
+    ]
+
+homeSlide : HomeSlide -> Slide.Config msg
+homeSlide sld =
+    Slide.config [] (Slide.image [ class "img-fluid img-slideshow" ] sld.slideRef)
+        |> Slide.caption []
+            [ div [class "slideshow-caption-background"]
+                [ h3 [class "slideshow-caption"] [ text sld.caption1 ]
+                , a [ href sld.caption2Ref 
+                    , class "slideshow-caption"
+                    ] 
+                    [ h6 [] [ text sld.caption2 ] ]
+                ]
+            ]
