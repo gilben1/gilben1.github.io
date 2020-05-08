@@ -17,6 +17,14 @@ type ProjectSource
     | GitLab
     | Other
 
+type RepoLink
+    = RepoSingle String
+    | RepoMulti (List String)
+
+type ProjectSourceType
+    = SourceSingle ProjectSource 
+    | SourceMulti (List ProjectSource)
+
 type alias ProjectCard = 
     { id : String
     , title : String
@@ -24,9 +32,9 @@ type alias ProjectCard =
     , img : String
     , mainLink : String
     , mainLinkText : String
-    , srcLink : String
-    , srcLinkText : String
-    , srcType : ProjectSource
+    , srcLink : RepoLink
+    , srcLinkText : RepoLink
+    , srcType : ProjectSourceType
     }
 
 viewProject : Model -> List (Html Msg)
@@ -41,9 +49,9 @@ viewProject model =
                 , img = "src/assets/robot_bounce.png"
                 , mainLink = "https://gilben1.github.io/robot-bounce/"
                 , mainLinkText = "Play now!"
-                , srcLink = "https://github.com/gilben1/robot-bounce"
-                , srcLinkText = "Github Repository"
-                , srcType = GitHub
+                , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
+                , srcLinkText = RepoSingle "Github Repository"
+                , srcType = SourceSingle GitHub
                 }
             ]
         , Grid.col defaultColAlignment
@@ -54,9 +62,9 @@ viewProject model =
                 , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
                 , mainLink = "https://gilben1.github.io"
                 , mainLinkText = "Link"
-                , srcLink = "https://github.com/gilben1/gilben1.github.io"
-                , srcLinkText = "Github Repository"
-                , srcType = GitHub
+                , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
+                , srcLinkText = RepoSingle "Github Repository"
+                , srcType = SourceSingle GitHub
                 }
             ]
         , Grid.col defaultColAlignment
@@ -67,12 +75,29 @@ viewProject model =
                 , img = "src/assets/system.png"
                 , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
                 , mainLinkText = "Latest Release"
-                , srcLink = "https://gitlab.com/gilben/shTab"
-                , srcLinkText = "Gitlab Repository"
-                , srcType = GitLab
+                , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
+                , srcLinkText = RepoSingle "Gitlab Repository"
+                , srcType = SourceSingle GitLab
                 }
             ]
         , Grid.col [Col.xl2] []
+        ]
+    , Grid.row [Row.middleXs]
+        [ Grid.col [Col.xl4] []
+        , Grid.col defaultColAlignment
+            [ projectCard model
+                { id = "robotis"
+                , title = "Capstone: ROBOTIS-OP3"
+                , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
+                , img = "src/assets/robot_bounce.png"
+                , mainLink = "https://capstoneteamd.wixsite.com/home"
+                , mainLinkText = "Project Site"
+                , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
+                , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                , srcType = SourceMulti [GitHub, GitHub, GitHub]
+                }
+            ]
+        , Grid.col [Col.xl4] []
         ]
     ]
 
@@ -116,15 +141,44 @@ projectCardContent model prj =
                                         ]
                                     , Grid.col [Col.xs1] []
                                     , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
-                                        [ case prj.srcType of
-                                            GitHub ->
-                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                            GitLab ->
-                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                            Other ->
-                                                text ""
-                                        , a [ href prj.srcLink, target "_blank" ] [ text prj.srcLinkText ]
-                                        ]
+                                       ( case prj.srcLink of
+                                            RepoSingle srcLink ->
+                                                case prj.srcLinkText of
+                                                    RepoSingle srcLinkText ->
+                                                        case prj.srcType of
+                                                            SourceSingle srcType ->
+                                                                [ case srcType of 
+                                                                    GitHub ->
+                                                                        img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                                    GitLab ->
+                                                                        img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                                    Other ->
+                                                                        text ""
+                                                                , a [ href srcLink, target "_blank" ] [ text srcLinkText ] 
+                                                                ]
+                                                            SourceMulti _ -> []
+                                                    RepoMulti _ -> []
+
+                                            RepoMulti srcList ->
+                                                case prj.srcLinkText of
+                                                    RepoSingle _ -> []
+                                                    RepoMulti srcLinkList ->
+                                                        case prj.srcType of
+                                                            SourceSingle _ -> []
+                                                            SourceMulti srcTypeList ->
+                                                                List.map3 (
+                                                                    \x y z -> 
+                                                                        div [] 
+                                                                            [ case z of 
+                                                                                GitHub ->
+                                                                                    img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                                                GitLab ->
+                                                                                    img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                                                Other ->
+                                                                                    text ""
+                                                                            , a [href x, target "_blank" ] [ text y ] 
+                                                                            ] ) srcLinkList srcList srcTypeList
+                                       )
                                     ]
                             ]
         ]
