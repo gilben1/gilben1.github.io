@@ -89,11 +89,11 @@ viewProject model =
                 { id = "robotis"
                 , title = "Capstone: ROBOTIS-OP3"
                 , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
-                , img = "src/assets/robot_bounce.png"
+                , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
                 , mainLink = "https://capstoneteamd.wixsite.com/home"
                 , mainLinkText = "Project Site"
-                , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
-                , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                , srcLink = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                , srcLinkText = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
                 , srcType = SourceMulti [GitHub, GitHub, GitHub]
                 }
             ]
