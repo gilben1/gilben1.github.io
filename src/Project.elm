@@ -11,6 +11,7 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Text as Text
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
+import Bootstrap.Card as Card
 
 type ProjectSource
     = GitHub
@@ -40,7 +41,7 @@ type alias ProjectCard =
 viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xl2] []
+        [ Grid.col [Col.xl1] []
         , Grid.col defaultColAlignment
             [ projectCard model 
                 { id = "rbtbounce"
@@ -59,7 +60,7 @@ viewProject model =
                 { id = "elmsite"
                 , title = "gilben1.github.io"
                 , desc = "This website! Written in Elm using Elm Bootstrap 4"
-                , img = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Elm_logo.svg"
+                , img = "src/assets/elm_logo.png"
                 , mainLink = "https://gilben1.github.io"
                 , mainLinkText = "Link"
                 , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
@@ -71,7 +72,7 @@ viewProject model =
             [ projectCard model
                 { id = "shtab"
                 , title = "shTab"
-                , desc = "Shell new tab page extension for Firefox"
+                , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
                 , img = "src/assets/system.png"
                 , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
                 , mainLinkText = "Latest Release"
@@ -80,7 +81,7 @@ viewProject model =
                 , srcType = SourceSingle GitLab
                 }
             ]
-        , Grid.col [Col.xl2] []
+        , Grid.col [Col.xl1] []
         ]
     , Grid.row [Row.middleXs]
         [ Grid.col [Col.xl4] []
@@ -108,19 +109,19 @@ projectCard model prj =
         |> Accordion.cards
             [ Accordion.card
                 { id = prj.id
-                , options = []
+                , options = [Card.attrs [class "top-buffer"], Card.outlineInfo]
                 , header = projectCardHeader model prj
                 , blocks = projectCardContent model prj
                 }
             ]
-        |> Accordion.onlyOneOpen
+        --|> Accordion.onlyOneOpen
         |> Accordion.view model.accordionState
 
 projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
 projectCardHeader model prj =
     Accordion.toggle [] 
         [ Grid.containerFluid []
-            [ Grid.row [Row.middleXs] 
+            [ Grid.row [Row.middleXs, Row.attrs [class "flex-nowrap"]] 
                 [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
                     [ text prj.title ]
                 ]

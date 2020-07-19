@@ -28,3 +28,14 @@
 .slideshow-caption-background {
     background: rgba(0, 0, 0, 0.8);
 }
+
+.divider-10 {
+    width:100%; 
+    min-height:1px; 
+    margin-top:10px; 
+    margin-bottom:10px;  
+    display:inline-block; 
+    position:relative;
+}
+
+.top-buffer { margin-top:50px; }
