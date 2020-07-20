@@ -40,63 +40,77 @@ type alias ProjectCard =
 
 viewProject : Model -> List (Html Msg)
 viewProject model =
-    [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xl4] []
+    [ Grid.row [Row.topXs]
+        [ Grid.col [Col.xl2] []
         , Grid.col defaultColAlignment
             [ projectGroup model 
                 [ { id = "rbtbounce"
-                      , title = "Robot Bounce"
-                      , desc = "Robot puzzle game inspired by Ricohet Robots"
-                      , img = "src/assets/robot_bounce.png"
-                      , mainLink = "https://gilben1.github.io/robot-bounce/"
-                      , mainLinkText = "Play now!"
-                      , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
-                      , srcLinkText = RepoSingle "Github Repository"
-                      , srcType = SourceSingle GitHub
+                    , title = "Robot Bounce"
+                    , desc = "Robot puzzle game inspired by Ricohet Robots"
+                    , img = "src/assets/robot_bounce.png"
+                    , mainLink = "https://gilben1.github.io/robot-bounce/"
+                    , mainLinkText = "Play now!"
+                    , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
+                    , srcLinkText = RepoSingle "Github Repository"
+                    , srcType = SourceSingle GitHub
                   }
                 , { id = "elmsite"
-                        , title = "gilben1.github.io"
-                        , desc = "This website! Written in Elm using Elm Bootstrap 4"
-                        , img = "src/assets/elm_logo.png"
-                        , mainLink = "https://gilben1.github.io"
-                        , mainLinkText = "Link"
-                        , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
-                        , srcLinkText = RepoSingle "Github Repository"
-                        , srcType = SourceSingle GitHub
+                    , title = "gilben1.github.io"
+                    , desc = "This website! Written in Elm using Elm Bootstrap 4"
+                    , img = "src/assets/elm_logo.png"
+                    , mainLink = "https://gilben1.github.io"
+                    , mainLinkText = "Link"
+                    , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
+                    , srcLinkText = RepoSingle "Github Repository"
+                    , srcType = SourceSingle GitHub
                   }
                 , { id = "shtab"
-                        , title = "shTab"
-                        , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
-                        , img = "src/assets/system.png"
-                        , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
-                        , mainLinkText = "Latest Release"
-                        , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
-                        , srcLinkText = RepoSingle "Gitlab Repository"
-                        , srcType = SourceSingle GitLab
+                    , title = "shTab"
+                    , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
+                    , img = "src/assets/system.png"
+                    , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
+                    , mainLinkText = "Latest Release"
+                    , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
+                    , srcLinkText = RepoSingle "Gitlab Repository"
+                    , srcType = SourceSingle GitLab
                   }
-                , { id = "haspall"
-                        , title = "haspall"
-                        , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
-                        , img = "src/assets/hoogle_logo.png"
-                        , mainLink = ""
-                        , mainLinkText = ""
-                        , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
-                        , srcLink = RepoMulti ["https://gitlab.com/gilben/haspall-redux", "https://gitlab.com/gilben/haspall"]
-                        , srcType = SourceMulti [GitLab, GitLab]
-                  }
-                , { id = "robotis"
-                        , title = "Capstone: ROBOTIS-OP3"
-                        , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
-                        , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
-                        , mainLink = "https://capstoneteamd.wixsite.com/home"
-                        , mainLinkText = "Project Site"
-                        , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
-                        , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
-                        , srcType = SourceMulti [GitHub, GitHub, GitHub]
-                 }
                 ]
             ]
-        , Grid.col [Col.xl4] []
+        , Grid.col defaultColAlignment 
+            [ projectGroup model 
+                [ { id = "haspall"
+                    , title = "Haspall Discord Bots"
+                    , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
+                    , img = "src/assets/hoogle_logo.png"
+                    , mainLink = ""
+                    , mainLinkText = ""
+                    , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
+                    , srcLink = RepoMulti ["https://gitlab.com/gilben/haspall-redux", "https://gitlab.com/gilben/haspall"]
+                    , srcType = SourceMulti [GitLab, GitLab]
+                  }
+                , { id = "irc"
+                    , title = "Various IRC Bots"
+                    , desc = "Some (mostly useless) IRC bots that perform various functions. Dicebot let you roll dice in various fun ways, dad bot told dad jokes, ythaikubot pulled data from the subreddit YoutubeHaiku, and parens-bot fixes those pesky loose parentheses."
+                    , img = "src/assets/coding_icon.png"
+                    , mainLink = ""
+                    , mainLinkText = ""
+                    , srcLinkText = RepoMulti ["Dicebot", "Dadbot", "YTHaikubot", "Parens-bot"]
+                    , srcLink = RepoMulti ["https://gitlab.com/gilben/dicebot", "https://gitlab.com/gilben/dadbot", "https://gitlab.com/gilben/ythaikubot", "https://gitlab.com/gilben/parens-bot"]
+                    , srcType = SourceMulti [GitLab, GitLab, GitLab, GitLab]
+                  }
+                , { id = "robotis"
+                    , title = "Capstone: ROBOTIS-OP3"
+                    , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
+                    , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
+                    , mainLink = "https://capstoneteamd.wixsite.com/home"
+                    , mainLinkText = "Project Site"
+                    , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                    , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
+                    , srcType = SourceMulti [GitHub, GitHub, GitHub]
+                  }
+               ]
+            ]
+        , Grid.col [Col.xl2] []
         ]
     ]
 projectGroup : Model -> List (ProjectCard) -> Html Msg
