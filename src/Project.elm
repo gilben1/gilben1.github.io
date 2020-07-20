@@ -41,88 +41,88 @@ type alias ProjectCard =
 viewProject : Model -> List (Html Msg)
 viewProject model =
     [ Grid.row [Row.middleXs]
-        [ Grid.col [Col.xl1] []
-        , Grid.col defaultColAlignment
-            [ projectCard model 
-                { id = "rbtbounce"
-                , title = "Robot Bounce"
-                , desc = "Robot puzzle game inspired by Ricohet Robots"
-                , img = "src/assets/robot_bounce.png"
-                , mainLink = "https://gilben1.github.io/robot-bounce/"
-                , mainLinkText = "Play now!"
-                , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
-                , srcLinkText = RepoSingle "Github Repository"
-                , srcType = SourceSingle GitHub
-                }
-            ]
-        , Grid.col defaultColAlignment
-            [ projectCard model
-                { id = "elmsite"
-                , title = "gilben1.github.io"
-                , desc = "This website! Written in Elm using Elm Bootstrap 4"
-                , img = "src/assets/elm_logo.png"
-                , mainLink = "https://gilben1.github.io"
-                , mainLinkText = "Link"
-                , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
-                , srcLinkText = RepoSingle "Github Repository"
-                , srcType = SourceSingle GitHub
-                }
-            ]
-        , Grid.col defaultColAlignment
-            [ projectCard model
-                { id = "shtab"
-                , title = "shTab"
-                , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
-                , img = "src/assets/system.png"
-                , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
-                , mainLinkText = "Latest Release"
-                , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
-                , srcLinkText = RepoSingle "Gitlab Repository"
-                , srcType = SourceSingle GitLab
-                }
-            ]
-        , Grid.col [Col.xl1] []
-        ]
-    , Grid.row [Row.middleXs]
         [ Grid.col [Col.xl4] []
         , Grid.col defaultColAlignment
-            [ projectCard model
-                { id = "robotis"
-                , title = "Capstone: ROBOTIS-OP3"
-                , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
-                , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
-                , mainLink = "https://capstoneteamd.wixsite.com/home"
-                , mainLinkText = "Project Site"
-                , srcLink = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
-                , srcLinkText = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
-                , srcType = SourceMulti [GitHub, GitHub, GitHub]
-                }
+            [ projectGroup model 
+                [ { id = "rbtbounce"
+                      , title = "Robot Bounce"
+                      , desc = "Robot puzzle game inspired by Ricohet Robots"
+                      , img = "src/assets/robot_bounce.png"
+                      , mainLink = "https://gilben1.github.io/robot-bounce/"
+                      , mainLinkText = "Play now!"
+                      , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
+                      , srcLinkText = RepoSingle "Github Repository"
+                      , srcType = SourceSingle GitHub
+                  }
+                , { id = "elmsite"
+                        , title = "gilben1.github.io"
+                        , desc = "This website! Written in Elm using Elm Bootstrap 4"
+                        , img = "src/assets/elm_logo.png"
+                        , mainLink = "https://gilben1.github.io"
+                        , mainLinkText = "Link"
+                        , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
+                        , srcLinkText = RepoSingle "Github Repository"
+                        , srcType = SourceSingle GitHub
+                  }
+                , { id = "shtab"
+                        , title = "shTab"
+                        , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
+                        , img = "src/assets/system.png"
+                        , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
+                        , mainLinkText = "Latest Release"
+                        , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
+                        , srcLinkText = RepoSingle "Gitlab Repository"
+                        , srcType = SourceSingle GitLab
+                  }
+                , { id = "haspall"
+                        , title = "haspall"
+                        , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
+                        , img = "src/assets/hoogle_logo.png"
+                        , mainLink = ""
+                        , mainLinkText = ""
+                        , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
+                        , srcLink = RepoMulti ["https://gitlab.com/gilben/haspall-redux", "https://gitlab.com/gilben/haspall"]
+                        , srcType = SourceMulti [GitLab, GitLab]
+                  }
+                , { id = "robotis"
+                        , title = "Capstone: ROBOTIS-OP3"
+                        , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
+                        , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
+                        , mainLink = "https://capstoneteamd.wixsite.com/home"
+                        , mainLinkText = "Project Site"
+                        , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                        , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
+                        , srcType = SourceMulti [GitHub, GitHub, GitHub]
+                 }
+                ]
             ]
         , Grid.col [Col.xl4] []
         ]
     ]
-
-projectCard : Model -> ProjectCard -> Html Msg
-projectCard model prj =
+projectGroup : Model -> List (ProjectCard) -> Html Msg
+projectGroup model prjs =
     Accordion.config AccordionMsg
         |> Accordion.withAnimation
         |> Accordion.cards
-            [ Accordion.card
-                { id = prj.id
-                , options = [Card.attrs [class "top-buffer"], Card.outlineInfo]
-                , header = projectCardHeader model prj
-                , blocks = projectCardContent model prj
-                }
-            ]
-        --|> Accordion.onlyOneOpen
+            (List.map buildProjectCards prjs)
         |> Accordion.view model.accordionState
 
-projectCardHeader : Model -> ProjectCard -> Accordion.Header msg
-projectCardHeader model prj =
+buildProjectCards : ProjectCard -> Accordion.Card msg
+buildProjectCards prj =
+    Accordion.card
+        { id = prj.id
+        , options = [Card.outlineInfo]
+        , header = projectCardHeader prj
+        , blocks = projectCardContent prj
+        }
+
+
+projectCardHeader : ProjectCard -> Accordion.Header msg
+projectCardHeader prj =
     Accordion.toggle [] 
-        [ Grid.containerFluid []
-            [ Grid.row [Row.middleXs, Row.attrs [class "flex-nowrap"]] 
-                [ Grid.col [Col.xs, Col.textAlign Text.alignXsCenter ]
+        [ Grid.container []
+            [ Grid.row [Row.middleXs, Row.attrs [class ""]] 
+                [ Grid.col [Col.xs, Col.textAlign Text.alignXsRight ]
                     [ text prj.title ]
                 ]
             ]
@@ -130,9 +130,9 @@ projectCardHeader model prj =
     |> Accordion.header []
     |> Accordion.prependHeader [ img [src prj.img, class "img-responsive img-thumbnail" ] [] ]
 
-projectCardContent : Model -> ProjectCard -> List (Accordion.CardBlock msg)
-projectCardContent model prj =
-    [ Accordion.block [ Block.align Text.alignXsLeft ]
+projectCardContent : ProjectCard -> List (Accordion.CardBlock msg)
+projectCardContent prj =
+    [ Accordion.block [ Block.align Text.alignXsLeft]
         [ Block.text [] [ text prj.desc ] 
         ]
     , Accordion.block [ Block.align Text.alignXsLeft ]
@@ -177,7 +177,7 @@ projectCardContent model prj =
                                                                                     img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
                                                                                 Other ->
                                                                                     text ""
-                                                                            , a [href x, target "_blank" ] [ text y ] 
+                                                                            , a [href y, target "_blank" ] [ text x ] 
                                                                             ] ) srcLinkList srcList srcTypeList
                                        )
                                     ]
