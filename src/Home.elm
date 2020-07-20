@@ -1,5 +1,6 @@
 module Home exposing (..)
 import Common exposing (defaultColAlignment)
+import Html.Attributes exposing (default)
 
 -- Custom imports from local modules
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
@@ -27,14 +28,21 @@ viewHome : Model -> List (Html Msg)
 viewHome model =
     [ --Grid.row [Row.topXs] (homeSlideShow model)
     --, 
-     Grid.row [Row.bottomXs]
+      Grid.row [Row.middleXs]
         [ Grid.col defaultColAlignment
-            [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
+            [ img [src "https://media-exp1.licdn.com/dms/image/C5603AQEZgrIefm1ehg/profile-displayphoto-shrink_200_200/0?e=1600905600&v=beta&t=K__b63zq6AQPTXpY8MKFYRtS9ceru2CME-4aQRY9G0c", class "img-thumbnail"] []
+            ]
+        ]
+    , Grid.row [Row.bottomXs]
+        [ Grid.col defaultColAlignment
+            [ b [ Spacing.p5 ] [ text "Homepage for Nicholas Gilbert (pictured above)" ]
             , br [] []
             , text "This is very much work in progress!"
             ]
-        , Grid.col defaultColAlignment
-            [ b [] [ text "WIP!" ] ]
+        ]
+    , Grid.row [Row.bottomXs]
+        [ Grid.col defaultColAlignment
+            [ b [ Spacing.p5 ] [ text "Check out my projects in the tab above! That's the most complete section of this site!"]]
         ]
     ]
 
