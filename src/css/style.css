@@ -39,3 +39,15 @@
 }
 
 .top-buffer { margin-top:50px; }
+
+.accordion .card {
+        overflow: hidden
+}
+
+.accordion .card-header {
+    margin-bottom: -1px;
+}
+
+.card-title {
+    min-width: 300px;
+}
