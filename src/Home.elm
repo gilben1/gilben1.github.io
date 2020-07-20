@@ -1,4 +1,5 @@
 module Home exposing (..)
+import Common exposing (defaultColAlignment)
 
 -- Custom imports from local modules
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
@@ -24,8 +25,9 @@ type alias HomeSlide =
 
 viewHome : Model -> List (Html Msg)
 viewHome model =
-    [ Grid.row [Row.topXs] (homeSlideShow model)
-    , Grid.row [Row.bottomXs]
+    [ --Grid.row [Row.topXs] (homeSlideShow model)
+    --, 
+     Grid.row [Row.bottomXs]
         [ Grid.col defaultColAlignment
             [ b [ Spacing.p5 ] [ text "Welcome to my homepage!" ]
             , br [] []

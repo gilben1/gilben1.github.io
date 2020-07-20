@@ -1,4 +1,5 @@
 module Main exposing (..)
+import Html exposing (br)
 
 -- Custom imports from local modules
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
@@ -14,6 +15,9 @@ import Url
 -- Bootstrap imports
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Row as Row 
+import Bootstrap.Grid.Col as Col
+import Bootstrap.Text as Text
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
@@ -77,6 +81,11 @@ view model =
         [ Grid.containerFluid []
             [ CDN.stylesheet
             , menu model
+            , Grid.row [Row.attrs [class "bottomdiv"] ]
+                    [ Grid.col [Col.textAlign Text.alignXsLeft]
+                        (licenseIcon "src/assets/coding_icon.png" "Freepik" "Freepik"
+                        ++ licenseIcon "src/assets/system.png" "Kirill Kazachek" "Kirill-Kazachek")
+                    ]
             ] 
         ]
     }
@@ -123,4 +132,14 @@ viewResume model =
         , Grid.col defaultColAlignment
             [ b [] [ text "WIP!" ] ]
         ]
+    ]
+
+licenseIcon : String -> String -> String -> List (Html Msg)
+licenseIcon srcPath author authorLink =
+    [ img [src srcPath, class "img-icon"] []
+    , text "icon made by "
+    , a [href ("https://www.flaticon.com/authors/" ++ authorLink), title author] [text author] 
+    , text " from "
+    , a [href "https://www.flaticon.com/", title "Flaticon"] [text "www.flaticon.com"]
+    , br [] []
     ]

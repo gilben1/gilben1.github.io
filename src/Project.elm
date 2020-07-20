@@ -75,7 +75,7 @@ viewProject model =
                         , srcType = SourceSingle GitLab
                   }
                 , { id = "haspall"
-                        , title = "haspall"
+                        , title = "Haspall Discord Bots"
                         , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
                         , img = "src/assets/hoogle_logo.png"
                         , mainLink = ""
@@ -83,6 +83,16 @@ viewProject model =
                         , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
                         , srcLink = RepoMulti ["https://gitlab.com/gilben/haspall-redux", "https://gitlab.com/gilben/haspall"]
                         , srcType = SourceMulti [GitLab, GitLab]
+                  }
+                , { id = "irc"
+                        , title = "Various IRC Bots"
+                        , desc = "Some (mostly useless) IRC bots that perform various functions. Dicebot let you roll dice in various fun ways, dad bot told dad jokes, ythaikubot pulled data from the subreddit YoutubeHaiku, and parens-bot fixes those pesky loose parentheses."
+                        , img = "src/assets/coding_icon.png"
+                        , mainLink = ""
+                        , mainLinkText = ""
+                        , srcLinkText = RepoMulti ["Dicebot", "Dadbot", "YTHaikubot", "Parens-bot"]
+                        , srcLink = RepoMulti ["https://gitlab.com/gilben/dicebot", "https://gitlab.com/gilben/dadbot", "https://gitlab.com/gilben/ythaikubot", "https://gitlab.com/gilben/parens-bot"]
+                        , srcType = SourceMulti [GitLab, GitLab, GitLab, GitLab]
                   }
                 , { id = "robotis"
                         , title = "Capstone: ROBOTIS-OP3"
