@@ -42,7 +42,9 @@ viewHome model =
         ]
     , Grid.row [Row.bottomXs]
         [ Grid.col defaultColAlignment
-            [ b [ Spacing.p5 ] [ text "Check out my projects in the tab above! That's the most complete section of this site!"]]
+            [ b [ Spacing.p5 ] [ text "Check out my projects in the tab above! That's the most complete section of this site!"]
+            , br [] []
+            , b [ Spacing.p5 ] [ text "Also check out my resume! Embedded and everything!" ] ]
         ]
     ]
 
