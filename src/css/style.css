@@ -1,3 +1,8 @@
+.row { 
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
 .img-responsive {
     max-height: 64px;
 }
