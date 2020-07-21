@@ -1,5 +1,7 @@
 module Main exposing (..)
 import Html exposing (br)
+import Common exposing (defaultRowAlignment)
+import Common exposing (defaultColAlignment)
 
 -- Custom imports from local modules
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
@@ -123,16 +125,16 @@ menu model =
 
 viewResume : Model -> List (Html Msg)
 viewResume model =
-    [ Grid.row defaultRowAlignment
+    [ Grid.row [Row.middleXs]
         [ Grid.col defaultColAlignment
-            [ b [] [ text "This is a virtual resume!" ] 
-            , br [] []
-            , text "This is very much work in progress!"
-            ]
-        , Grid.col defaultColAlignment
-            [ b [] [ text "WIP!" ] ]
+            [ h1 [] [ text "Online Resume" ] ]
+        ]
+    , Grid.row [Row.middleXs]
+        [ Grid.col defaultColAlignment 
+            [ canvas [id "pdf-canvas" ] [] ]
         ]
     ]
+   
 
 licenseIcon : String -> String -> String -> List (Html Msg)
 licenseIcon srcPath author authorLink =

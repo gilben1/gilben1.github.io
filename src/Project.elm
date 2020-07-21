@@ -40,7 +40,11 @@ type alias ProjectCard =
 
 viewProject : Model -> List (Html Msg)
 viewProject model =
-    [ Grid.row [Row.topXs]
+    [ Grid.row [Row.middleXs]
+        [ Grid.col defaultColAlignment
+            [ h1 [] [ text "Projects" ] ]
+        ]
+    , Grid.row [Row.topXs]
         [ Grid.col [Col.xl2] []
         , Grid.col defaultColAlignment
             [ projectGroup model 

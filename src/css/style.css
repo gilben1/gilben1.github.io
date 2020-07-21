@@ -54,7 +54,12 @@
 
 .bottomdiv {
     border: 1px solid red;
+    background-color: white;
     position: fixed;
     left:0;
     bottom:0;
+}
+
+.resume-header {
+    border: 1px solid blue;
 }
