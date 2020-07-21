@@ -80,10 +80,9 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
-        [ Grid.containerFluid []
-            [ CDN.stylesheet
-            , menu model
-            , Grid.row [Row.attrs [class "bottomdiv"] ]
+        [ menu model
+        , Grid.containerFluid []
+            [ Grid.row [Row.attrs [class "bottomdiv"] ]
                     [ Grid.col [Col.textAlign Text.alignXsLeft]
                         (licenseIcon "src/assets/coding_icon.png" "Freepik" "Freepik"
                         ++ licenseIcon "src/assets/system.png" "Kirill Kazachek" "Kirill-Kazachek")
