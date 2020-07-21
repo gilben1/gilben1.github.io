@@ -45,20 +45,10 @@ viewProject model =
             [ h1 [] [ text "Projects" ] ]
         ]
     , Grid.row [Row.topXs]
-        [ Grid.col [Col.xl2] []
+        [ Grid.col [Col.xl1] []
         , Grid.col defaultColAlignment
             [ projectGroup model 
-                [ { id = "rbtbounce"
-                    , title = "Robot Bounce"
-                    , desc = "Robot puzzle game inspired by Ricohet Robots"
-                    , img = "src/assets/robot_bounce.png"
-                    , mainLink = "https://gilben1.github.io/robot-bounce/"
-                    , mainLinkText = "Play now!"
-                    , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
-                    , srcLinkText = RepoSingle "Github Repository"
-                    , srcType = SourceSingle GitHub
-                  }
-                , { id = "elmsite"
+                [ { id = "elmsite"
                     , title = "gilben1.github.io"
                     , desc = "This website! Written in Elm using Elm Bootstrap 4"
                     , img = "src/assets/elm_logo.png"
@@ -68,7 +58,21 @@ viewProject model =
                     , srcLinkText = RepoSingle "Github Repository"
                     , srcType = SourceSingle GitHub
                   }
-                , { id = "shtab"
+                , { id = "rbtbounce"
+                    , title = "Robot Bounce"
+                    , desc = "Robot puzzle game inspired by Ricohet Robots"
+                    , img = "src/assets/robot_bounce.png"
+                    , mainLink = "https://gilben1.github.io/robot-bounce/"
+                    , mainLinkText = "Play now!"
+                    , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
+                    , srcLinkText = RepoSingle "Github Repository"
+                    , srcType = SourceSingle GitHub
+                  }
+                ]
+            ]
+        , Grid.col defaultColAlignment 
+            [ projectGroup model 
+                [ { id = "shtab"
                     , title = "shTab"
                     , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
                     , img = "src/assets/system.png"
@@ -78,10 +82,20 @@ viewProject model =
                     , srcLinkText = RepoSingle "Gitlab Repository"
                     , srcType = SourceSingle GitLab
                   }
-                ]
+                , { id = "robotis"
+                    , title = "Capstone: ROBOTIS-OP3"
+                    , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
+                    , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
+                    , mainLink = "https://capstoneteamd.wixsite.com/home"
+                    , mainLinkText = "Project Site"
+                    , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
+                    , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
+                    , srcType = SourceMulti [GitHub, GitHub, GitHub]
+                  }
+               ]
             ]
-        , Grid.col defaultColAlignment 
-            [ projectGroup model 
+        , Grid.col defaultColAlignment
+            [ projectGroup model
                 [ { id = "haspall"
                     , title = "Haspall Discord Bots"
                     , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
@@ -102,19 +116,10 @@ viewProject model =
                     , srcLink = RepoMulti ["https://gitlab.com/gilben/dicebot", "https://gitlab.com/gilben/dadbot", "https://gitlab.com/gilben/ythaikubot", "https://gitlab.com/gilben/parens-bot"]
                     , srcType = SourceMulti [GitLab, GitLab, GitLab, GitLab]
                   }
-                , { id = "robotis"
-                    , title = "Capstone: ROBOTIS-OP3"
-                    , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
-                    , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
-                    , mainLink = "https://capstoneteamd.wixsite.com/home"
-                    , mainLinkText = "Project Site"
-                    , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
-                    , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
-                    , srcType = SourceMulti [GitHub, GitHub, GitHub]
-                  }
-               ]
+                ]
+
             ]
-        , Grid.col [Col.xl2] []
+        , Grid.col [Col.xl1] []
         ]
     ]
 projectGroup : Model -> List (ProjectCard) -> Html Msg

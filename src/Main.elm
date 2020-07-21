@@ -130,6 +130,10 @@ viewResume model =
             [ h1 [] [ text "Online Resume" ] ]
         ]
     , Grid.row [Row.middleXs]
+        [ Grid.col defaultColAlignment
+            [ a [href "src/assets/resume.pdf", target "_blank" ] [text "(PDF Link)" ] ]
+        ]
+    , Grid.row [Row.middleXs]
         [ Grid.col defaultColAlignment 
             [ canvas [id "pdf-canvas" ] [] ]
         ]
