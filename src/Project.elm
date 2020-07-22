@@ -1,6 +1,6 @@
 module Project exposing (..)
 
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
+import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -144,7 +144,7 @@ projectCardHeader : ProjectCard -> Accordion.Header msg
 projectCardHeader prj =
     Accordion.toggle [] 
         [ Grid.container []
-            [ Grid.row [Row.middleXs, Row.attrs [class ""]] 
+            [ Grid.row [Row.middleXs, rowClass "" ] 
                 [ Grid.col [Col.xs, Col.textAlign Text.alignXsRight ]
                     [ text prj.title ]
                 ]
