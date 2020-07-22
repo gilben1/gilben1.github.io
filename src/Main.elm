@@ -4,7 +4,7 @@ import Common exposing (defaultRowAlignment)
 import Common exposing (defaultColAlignment)
 
 -- Custom imports from local modules
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
+import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
 import Project exposing (viewProject)
 import Home exposing (viewHome)
 
@@ -82,10 +82,11 @@ view model =
     , body =
         [ menu model
         , Grid.containerFluid []
-            [ Grid.row [Row.attrs [class "bottomdiv"] ]
-                    [ Grid.col [Col.textAlign Text.alignXsLeft]
+            [ Grid.row [rowClass "bottomdiv-root" ]
+                    [ Grid.col [Col.xs, Col.textAlign Text.alignXsLeft, colClass "bottomdiv-text"]
                         (licenseIcon "src/assets/coding_icon.png" "Freepik" "Freepik"
                         ++ licenseIcon "src/assets/system.png" "Kirill Kazachek" "Kirill-Kazachek")
+                    , Grid.col [Col.xs9, colClass "bottomdiv-spacer" ] [ ]
                     ]
             ] 
         ]

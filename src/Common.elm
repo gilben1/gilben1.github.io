@@ -1,4 +1,4 @@
-module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass)
 
 import Browser
 import Browser.Navigation as Nav
@@ -36,3 +36,11 @@ defaultRowAlignment =
 defaultColAlignment : List (Col.Option msg)
 defaultColAlignment =
     [Col.textAlign Text.alignXsCenter]
+
+colClass : String -> Col.Option msg
+colClass className =
+    Col.attrs [ class className ]
+
+rowClass : String -> Row.Option msg
+rowClass className = 
+    Row.attrs [ class className ]
