@@ -142,7 +142,7 @@ buildProjectCards : ProjectCard -> Accordion.Card msg
 buildProjectCards prj =
     Accordion.card
         { id = prj.id
-        , options = [Card.outlineInfo]
+        , options = [Card.outlinePrimary]
         , header = projectCardHeader prj
         , blocks = projectCardContent prj
         }
