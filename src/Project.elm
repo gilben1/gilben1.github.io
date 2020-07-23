@@ -159,12 +159,12 @@ projectCardContent prj =
         [ Block.text [] [ text prj.desc ] 
         ]
     , Accordion.block [ Block.align Text.alignXsLeft ]
-        [ Block.text [] <| [ Grid.row [Row.middleXs]
-                                    [ Grid.col [Col.xs5, Col.textAlign Text.alignXsLeft]
+        [ Block.text [] <| [ Grid.row [Row.middleXs, rowClass "project-text"]
+                                    [ Grid.col [Col.textAlign Text.alignXsLeft]
                                         [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
                                         ]
-                                    , Grid.col [Col.xs1] []
-                                    , Grid.col [Col.xs6, Col.textAlign Text.alignXsRight]
+                                    --, Grid.col [Col.xl1] []
+                                    , Grid.col [Col.textAlign Text.alignXsRight]
                                        ( case prj.srcLink of
                                             RepoSingle srcLink ->
                                                 case prj.srcLinkText of
