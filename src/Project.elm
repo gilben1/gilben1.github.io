@@ -12,6 +12,7 @@ import Bootstrap.Text as Text
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
 import Bootstrap.Card as Card
+import Bootstrap.Alert exposing (secondary)
 
 type ProjectSource
     = GitHub
@@ -31,6 +32,7 @@ type alias ProjectCard =
     , title : String
     , desc : String
     , img : String
+    , langs : List (String)
     , mainLink : String
     , mainLinkText : String
     , srcLink : RepoLink
@@ -52,6 +54,7 @@ viewProject model =
                     , title = "gilben1.github.io"
                     , desc = "This website! Written in Elm using Elm Bootstrap 4"
                     , img = "src/assets/elm_logo.png"
+                    , langs = ["Elm", "Bootstrap"]
                     , mainLink = "https://gilben1.github.io"
                     , mainLinkText = "Link"
                     , srcLink = RepoSingle "https://github.com/gilben1/gilben1.github.io"
@@ -62,6 +65,7 @@ viewProject model =
                     , title = "Robot Bounce"
                     , desc = "Robot puzzle game inspired by Ricohet Robots"
                     , img = "src/assets/robot_bounce.png"
+                    , langs = ["Javascript", "PixiJS"]
                     , mainLink = "https://gilben1.github.io/robot-bounce/"
                     , mainLinkText = "Play now!"
                     , srcLink = RepoSingle "https://github.com/gilben1/robot-bounce"
@@ -76,6 +80,7 @@ viewProject model =
                     , title = "shTab"
                     , desc = "Shell-like new tab page extension for Firefox, programmable with a Bash-like commandline system"
                     , img = "src/assets/system.png"
+                    , langs = ["Javascript"]
                     , mainLink = "https://gitlab.com/gilben/shTab/-/releases/0.6.4"
                     , mainLinkText = "Latest Release"
                     , srcLink = RepoSingle "https://gitlab.com/gilben/shTab"
@@ -86,10 +91,11 @@ viewProject model =
                     , title = "Capstone: ROBOTIS-OP3"
                     , desc = "Capstone project from Portland State University for improving the vision detection algorithm for detecting soccer balls for a humanoid robot called ROBOTIS-OP3"
                     , img = "http://emanual.robotis.com/assets/images/platform/op3/op3_product_rev2.png"
+                    , langs = ["C++", "Javascript"]
                     , mainLink = "https://capstoneteamd.wixsite.com/home"
                     , mainLinkText = "Project Site"
-                    , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
                     , srcLink = RepoMulti ["https://github.com/Sappytomb796/ROBOTIS-OP3-Demo", "https://github.com/Sappytomb796/ROBOTIS-OP3-Tools", "https://github.com/Sappytomb796/ROBOTIS-OP3"]
+                    , srcLinkText = RepoMulti ["OP3-Demo", "OP3-Tools", "OP3-Main"]
                     , srcType = SourceMulti [GitHub, GitHub, GitHub]
                   }
                ]
@@ -100,20 +106,22 @@ viewProject model =
                     , title = "Haspall Discord Bots"
                     , desc = "Discord bots for querying information from haskell's hoogle interface. Version one was written in python, while redux was rewritten in haskell itself for more advanced operation."
                     , img = "src/assets/hoogle_logo.png"
+                    , langs = ["Haskell", "Python"]
                     , mainLink = ""
                     , mainLinkText = ""
-                    , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
                     , srcLink = RepoMulti ["https://gitlab.com/gilben/haspall-redux", "https://gitlab.com/gilben/haspall"]
+                    , srcLinkText = RepoMulti ["Haskell Version (Redux)", "Python Version"]
                     , srcType = SourceMulti [GitLab, GitLab]
                   }
                 , { id = "irc"
                     , title = "Various IRC Bots"
                     , desc = "Some (mostly useless) IRC bots that perform various functions. Dicebot let you roll dice in various fun ways, dad bot told dad jokes, ythaikubot pulled data from the subreddit YoutubeHaiku, and parens-bot fixes those pesky loose parentheses."
                     , img = "src/assets/coding_icon.png"
+                    , langs = ["IRC", "Bash"]
                     , mainLink = ""
                     , mainLinkText = ""
-                    , srcLinkText = RepoMulti ["Dicebot", "Dadbot", "YTHaikubot", "Parens-bot"]
                     , srcLink = RepoMulti ["https://gitlab.com/gilben/dicebot", "https://gitlab.com/gilben/dadbot", "https://gitlab.com/gilben/ythaikubot", "https://gitlab.com/gilben/parens-bot"]
+                    , srcLinkText = RepoMulti ["Dicebot", "Dadbot", "YTHaikubot", "Parens-bot"]
                     , srcType = SourceMulti [GitLab, GitLab, GitLab, GitLab]
                   }
                 ]
@@ -158,52 +166,77 @@ projectCardContent prj =
     [ Accordion.block [ Block.align Text.alignXsLeft]
         [ Block.text [] [ text prj.desc ] 
         ]
-    , Accordion.block [ Block.align Text.alignXsLeft ]
-        [ Block.text [] <| [ Grid.row [Row.middleXs, rowClass "project-text"]
-                                    [ Grid.col [Col.textAlign Text.alignXsLeft]
-                                        [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
-                                        ]
-                                    --, Grid.col [Col.xl1] []
-                                    , Grid.col [Col.textAlign Text.alignXsRight]
-                                       ( case prj.srcLink of
-                                            RepoSingle srcLink ->
-                                                case prj.srcLinkText of
-                                                    RepoSingle srcLinkText ->
-                                                        case prj.srcType of
-                                                            SourceSingle srcType ->
-                                                                [ case srcType of 
-                                                                    GitHub ->
-                                                                        img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                                                    GitLab ->
-                                                                        img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                                                    Other ->
-                                                                        text ""
-                                                                , a [ href srcLink, target "_blank" ] [ text srcLinkText ] 
-                                                                ]
-                                                            SourceMulti _ -> []
-                                                    RepoMulti _ -> []
-
-                                            RepoMulti srcList ->
-                                                case prj.srcLinkText of
-                                                    RepoSingle _ -> []
-                                                    RepoMulti srcLinkList ->
-                                                        case prj.srcType of
-                                                            SourceSingle _ -> []
-                                                            SourceMulti srcTypeList ->
-                                                                List.map3 (
-                                                                    \x y z -> 
-                                                                        div [] 
-                                                                            [ case z of 
-                                                                                GitHub ->
-                                                                                    img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
-                                                                                GitLab ->
-                                                                                    img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
-                                                                                Other ->
-                                                                                    text ""
-                                                                            , a [href y, target "_blank" ] [ text x ] 
-                                                                            ] ) srcLinkList srcList srcTypeList
-                                       )
-                                    ]
-                            ]
-        ]
+    , projectLangsBlock prj
+    , projectLinksBlock prj
     ]
+
+projectLangsBlock : ProjectCard -> Accordion.CardBlock msg
+projectLangsBlock prj =
+    Accordion.block [Block.dark, Block.textColor Text.light]
+        [ Block.text [] <|
+            [ Grid.row [Row.middleXs, rowClass ""]
+                [ Grid.col [Col.textAlign Text.alignXsCenter]
+                    [ b [] [ text "Languages + Technologies"] ]
+                ]
+            
+            , Grid.row [Row.middleXs, rowClass ""]
+                (List.map projectLangsCol prj.langs)
+            ]
+        ]
+
+projectLangsCol : String -> Grid.Column msg
+projectLangsCol lang =
+    Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignXsCenter]
+        [ text lang ]
+
+
+projectLinksBlock : ProjectCard -> Accordion.CardBlock msg
+projectLinksBlock prj =
+    Accordion.block []
+        [ Block.text [] <| 
+            [ Grid.row [Row.middleXs, rowClass ""]
+                [ Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdLeft]
+                    [ a [ href prj.mainLink, target "_blank" ] [ text prj.mainLinkText ]
+                    ]
+                , Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdRight]
+                    ( case prj.srcLink of
+                        RepoSingle srcLink ->
+                            case prj.srcLinkText of
+                                RepoSingle srcLinkText ->
+                                    case prj.srcType of
+                                        SourceSingle srcType ->
+                                            [ case srcType of 
+                                                GitHub ->
+                                                    img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                GitLab ->
+                                                    img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                Other ->
+                                                    text ""
+                                            , a [ href srcLink, target "_blank" ] [ text srcLinkText ] 
+                                            ]
+                                        SourceMulti _ -> []
+                                RepoMulti _ -> []
+
+                        RepoMulti srcList ->
+                            case prj.srcLinkText of
+                                RepoSingle _ -> []
+                                RepoMulti srcLinkList ->
+                                    case prj.srcType of
+                                        SourceSingle _ -> []
+                                        SourceMulti srcTypeList ->
+                                            List.map3 (
+                                                \x y z -> 
+                                                    div [] 
+                                                        [ case z of 
+                                                            GitHub ->
+                                                                img [src "src/assets/GitHub-Mark-32px.png", class "img-icon" ] []
+                                                            GitLab ->
+                                                                img [src "src/assets/gitlab-icon-rgb.svg", class "img-icon" ] []
+                                                            Other ->
+                                                                text ""
+                                                        , a [href y, target "_blank" ] [ text x ] 
+                                                        ] ) srcLinkList srcList srcTypeList
+                    )
+                ]
+            ]
+     ]

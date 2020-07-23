@@ -7,6 +7,8 @@ import Common exposing (defaultColAlignment)
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
 import Project exposing (viewProject)
 import Home exposing (viewHome)
+import Resume exposing (viewResume)
+import References exposing (viewReferences)
 
 import Browser
 import Browser.Navigation as Nav
@@ -82,15 +84,6 @@ view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
         [ menu model
-        , Grid.containerFluid []
-            --[ Grid.row [Row.attrs [Display.none, Display.inlineSm], rowClass "bottomdiv-root" ]
-            [ Grid.row [rowClass "bottomdiv-root" ]
-                    [ Grid.col [Col.attrs [Display.none, Display.inlineSm], Col.xs, Col.textAlign Text.alignXsLeft, colClass "bottomdiv-text"]
-                        (licenseIcon "src/assets/coding_icon.png" "Freepik" "Freepik"
-                        ++ licenseIcon "src/assets/system.png" "Kirill Kazachek" "Kirill-Kazachek")
-                    , Grid.col [Col.xs12, Col.sm3, Col.md4, Col.lg6, Col.xl7, colClass "bottomdiv-spacer" ] [ ]
-                    ]
-            ] 
         ]
     }
 
@@ -121,33 +114,13 @@ menu model =
                     Tab.pane [ Spacing.mt3 ]
                        (viewResume model)
                 }
+            , Tab.item
+                { id = "tabRefs"
+                , link = Tab.link [ class "tab-link" ] [ text "References" ]
+                , pane = 
+                    Tab.pane [ Spacing.mt3 ]
+                        (viewReferences model)    
+                }
             ]
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
-
-viewResume : Model -> List (Html Msg)
-viewResume model =
-    [ Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment
-            [ h1 [] [ text "Online Resume" ] ]
-        ]
-    , Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment
-            [ a [href "src/assets/resume.pdf", target "_blank" ] [text "(PDF Link)" ] ]
-        ]
-    , Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment 
-            [ canvas [id "pdf-canvas" ] [] ]
-        ]
-    ]
-   
-
-licenseIcon : String -> String -> String -> List (Html Msg)
-licenseIcon srcPath author authorLink =
-    [ img [src srcPath, class "img-icon"] []
-    , text "icon made by "
-    , a [href ("https://www.flaticon.com/authors/" ++ authorLink), title author] [text author] 
-    , text " from "
-    , a [href "https://www.flaticon.com/", title "Flaticon"] [text "www.flaticon.com"]
-    , br [] []
-    ]
