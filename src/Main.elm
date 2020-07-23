@@ -19,6 +19,7 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
+import Bootstrap.Utilities.Display as Display
 import Bootstrap.Text as Text
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
@@ -82,11 +83,12 @@ view model =
     , body =
         [ menu model
         , Grid.containerFluid []
+            --[ Grid.row [Row.attrs [Display.none, Display.inlineSm], rowClass "bottomdiv-root" ]
             [ Grid.row [rowClass "bottomdiv-root" ]
-                    [ Grid.col [Col.xs, Col.textAlign Text.alignXsLeft, colClass "bottomdiv-text"]
+                    [ Grid.col [Col.attrs [Display.none, Display.inlineSm], Col.xs, Col.textAlign Text.alignXsLeft, colClass "bottomdiv-text"]
                         (licenseIcon "src/assets/coding_icon.png" "Freepik" "Freepik"
                         ++ licenseIcon "src/assets/system.png" "Kirill Kazachek" "Kirill-Kazachek")
-                    , Grid.col [Col.xs9, colClass "bottomdiv-spacer" ] [ ]
+                    , Grid.col [Col.xs12, Col.sm3, Col.md4, Col.lg6, Col.xl7, colClass "bottomdiv-spacer" ] [ ]
                     ]
             ] 
         ]
