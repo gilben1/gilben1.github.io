@@ -75,3 +75,19 @@
 .resume-header {
     border: 1px solid blue;
 }
+
+.main-text {
+    --min-size-px: 10px;
+    --min-size: 10;
+    --max-size: 20;
+    font-size: calc(var(--min-size-px) + (var(--max-size) - var(--min-size)) * ((100vw - 300px) / (1600 - 300)));
+    line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+}
+
+.project-text {
+    --min-size-px: 10px;
+    --min-size: 10;
+    --max-size: 14;
+    font-size: calc(var(--min-size-px) + (var(--max-size) - var(--min-size)) * ((100vw - 300px) / (1600 - 300)));
+    line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+}
