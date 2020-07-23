@@ -7,6 +7,7 @@ import Common exposing (defaultColAlignment)
 import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
 import Project exposing (viewProject)
 import Home exposing (viewHome)
+import Resume exposing (viewResume)
 import References exposing (viewReferences)
 
 import Browser
@@ -123,20 +124,3 @@ menu model =
             ]
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
-
-viewResume : Model -> List (Html Msg)
-viewResume model =
-    [ Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment
-            [ h1 [] [ text "Online Resume" ] ]
-        ]
-    , Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment
-            [ a [href "src/assets/resume.pdf", target "_blank" ] [text "(PDF Link)" ] ]
-        ]
-    , Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment 
-            [ canvas [id "pdf-canvas" ] [] ]
-        ]
-    ]
-   
