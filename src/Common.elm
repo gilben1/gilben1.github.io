@@ -12,12 +12,14 @@ import Bootstrap.Grid as Grid
 import Bootstrap.Text as Text
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
-import Bootstrap.Carousel as Carousel
+import Html.Events exposing (..)
+import Http
+import Json.Decode exposing (Decoder, field, string)
+
 
 type alias Model =
     { tabState : Tab.State
     , accordionState : Accordion.State
-    , carouselState : Carousel.State
     , url : Url.Url
     , key : Nav.Key
     }
@@ -25,7 +27,6 @@ type alias Model =
 type Msg
     = TabMsg Tab.State
     | AccordionMsg Accordion.State
-    | CarouselMsg Carousel.Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
