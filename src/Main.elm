@@ -17,16 +17,9 @@ import Html.Attributes exposing (..)
 import Url
 
 -- Bootstrap imports
-import Bootstrap.CDN as CDN
-import Bootstrap.Grid as Grid
-import Bootstrap.Grid.Row as Row 
-import Bootstrap.Grid.Col as Col
-import Bootstrap.Utilities.Display as Display
-import Bootstrap.Text as Text
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
-import Bootstrap.Carousel as Carousel
 
 
 main : Program () Model Msg
@@ -45,7 +38,6 @@ init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
-         , carouselState = Carousel.initialState
          , url = url
          , key = key
         }, Cmd.none)
@@ -58,8 +50,6 @@ update msg model =
             ( { model | tabState = state }, Cmd.none)
         AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
-        CarouselMsg subMsg ->
-            ( { model | carouselState = Carousel.update subMsg model.carouselState }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -76,7 +66,6 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch [ Tab.subscriptions model.tabState TabMsg
               , Accordion.subscriptions model.accordionState AccordionMsg
-              , Carousel.subscriptions model.carouselState CarouselMsg
               ]
 
 view : Model -> Browser.Document Msg
