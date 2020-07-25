@@ -25,8 +25,10 @@ viewResume model =
             [ a [href "src/assets/resume.pdf", target "_blank" ] [text "(PDF Link)" ] ]
         ]
     , Grid.row [Row.middleXs]
-        [ Grid.col defaultColAlignment 
-            [ canvas [id "pdf-canvas" ] [] ]
+        [ Grid.col [Col.sm1] []
+        , Grid.col defaultColAlignment 
+            [ canvas [id "pdf-canvas", class "pdf-canvas" ] [] ]
+        , Grid.col [Col.sm1] []
         ]
     ]
    

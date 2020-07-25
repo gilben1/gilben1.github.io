@@ -91,3 +91,22 @@
     font-size: calc(var(--min-size-px) + (var(--max-size) - var(--min-size)) * ((100vw - 300px) / (1600 - 300)));
     line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
 }
+
+
+@media only screen and (min-width: 576px) {
+    .pdf-canvas {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .pdf-canvas {
+        width: 125% !important;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .pdf-canvas {
+        width: 150% !important;
+    }
+}
