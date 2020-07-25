@@ -16,12 +16,11 @@
             window["pdfjs-dist/build/pdf"].getDocument(pdfUrl).promise.then(pdf => {
                 let app = Elm.Main.init();
                 pdf.getPage(1).then(page => {
-                    let viewport = page.getViewport({scale: 1.5});
                     let canvas = document.getElementById("pdf-canvas");
+                    let viewport = page.getViewport({scale: 1.5});
                     let canvasContext = canvas.getContext("2d");
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
-                    console.log(viewport);
                     page.render({canvasContext, viewport});
                 })
             })
