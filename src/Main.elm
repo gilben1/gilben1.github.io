@@ -15,11 +15,17 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Common exposing (ProfileState)
+import Common exposing (Msg)
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
+
+import Http
+import Json.Decode exposing (Decoder, field, string)
+
 
 
 main : Program () Model Msg
@@ -40,7 +46,8 @@ init toMsg url key =
          , accordionState = Accordion.initialState
          , url = url
          , key = key
-        }, Cmd.none)
+         , profileState = Common.Loading
+        }, loadGithubProfile)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -50,6 +57,13 @@ update msg model =
             ( { model | tabState = state }, Cmd.none)
         AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
+
+        Common.ProfileLoaded result ->
+            case result of
+                Ok url ->
+                    ( {model | profileState = Common.Success url}, Cmd.none)
+                Err _ ->
+                    ( {model | profileState = Common.Failure}, Cmd.none)
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -113,3 +127,15 @@ menu model =
             ]
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
+
+
+loadGithubProfile : Cmd Msg
+loadGithubProfile = 
+    Http.get
+        { url = "https://api.github.com/users/gilben1"
+        , expect = Http.expectJson Common.ProfileLoaded githubDecoder
+        }
+
+githubDecoder : Decoder String
+githubDecoder =
+    field "avatar_url" string
