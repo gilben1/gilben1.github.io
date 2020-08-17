@@ -1,6 +1,7 @@
 module Project exposing (..)
 
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
+-- Common module import, holds models common definitions
+import Common exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -12,7 +13,6 @@ import Bootstrap.Text as Text
 import Bootstrap.Accordion as Accordion
 import Bootstrap.Card.Block as Block 
 import Bootstrap.Card as Card
-import Bootstrap.Alert exposing (secondary)
 
 type ProjectSource
     = GitHub
