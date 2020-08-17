@@ -3,6 +3,8 @@ import Html exposing (br)
 
 -- Custom imports from local modules
 import Common exposing (..)
+import Profile exposing (..)
+import Commands exposing (..)
 import Project exposing (viewProject)
 import Home exposing (viewHome)
 import Resume exposing (viewResume)
@@ -24,7 +26,7 @@ import Json.Decode exposing (Decoder, field, string)
 
 
 
-main : Program () Model Msg
+main : Program () Model Common.Msg
 main =
     Browser.application
         { init = init
@@ -36,17 +38,18 @@ main =
         }
 
  
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Common.Msg )
 init toMsg url key =
         ({ tabState = Tab.initialState
          , accordionState = Accordion.initialState
          , url = url
          , key = key
-         , profileState = Loading
-        }, loadGithubProfile)
+         , profileState = Profile.Loading
+        }, Cmd.map ProfileMsg Commands.loadGithubProfile)
+        
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Common.Msg -> Model -> ( Model, Cmd Common.Msg )
 update msg model =
     case msg of
         TabMsg state ->
@@ -54,12 +57,14 @@ update msg model =
         AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
 
-        ProfileLoaded result ->
-            case result of
-                Ok url ->
-                    ( {model | profileState = Common.Success url}, Cmd.none)
-                Err _ ->
-                    ( {model | profileState = Common.Failure}, Cmd.none)
+        ProfileMsg pMsg ->
+            case pMsg of 
+                ProfileLoaded result ->
+                    case result of
+                        Ok url ->
+                            ( {model | profileState = Profile.Success url}, Cmd.none)
+                        Err _ ->
+                            ( {model | profileState = Profile.Failure}, Cmd.none)
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -72,13 +77,13 @@ update msg model =
             , Cmd.none
             )
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Sub Common.Msg
 subscriptions model =
     Sub.batch [ Tab.subscriptions model.tabState TabMsg
               , Accordion.subscriptions model.accordionState AccordionMsg
               ]
 
-view : Model -> Browser.Document Msg
+view : Model -> Browser.Document Common.Msg
 view model =
     { title = "Nicholas Gilbert Elm Homepage"
     , body =
@@ -86,7 +91,7 @@ view model =
         ]
     }
 
-menu : Model -> Html Msg
+menu : Model -> Html Common.Msg
 menu model =
     Tab.config TabMsg
         |> Tab.withAnimation
@@ -124,14 +129,3 @@ menu model =
         |> Tab.attrs [ class "tab" ]
         |> Tab.view model.tabState
 
-
-loadGithubProfile : Cmd Msg
-loadGithubProfile = 
-    Http.get
-        { url = "https://api.github.com/users/gilben1"
-        , expect = Http.expectJson ProfileLoaded githubDecoder
-        }
-
-githubDecoder : Decoder String
-githubDecoder =
-    field "avatar_url" string

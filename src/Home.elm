@@ -3,6 +3,7 @@ import Html.Attributes exposing (default)
 
 -- Common module import, holds models common definitions
 import Common exposing (..)
+import Profile exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -15,7 +16,7 @@ import Bootstrap.Card.Block as Block
 import Bootstrap.Card as Card
 import Bootstrap.Alert exposing (secondary)
 
-viewHome : Model -> List (Html Msg)
+viewHome : Model -> List (Html Common.Msg)
 viewHome model =
     [ Grid.row [Row.middleXs]
         [ Grid.col defaultColAlignment
@@ -29,18 +30,20 @@ viewHome model =
         ]
     ]
 
-viewProfilePic : Model -> List (Html Msg)
+viewProfilePic : Model -> List (Html Common.Msg)
 viewProfilePic model =
     case model.profileState of
-        Failure ->
+        Profile.Failure ->
             [ text "Unable to load profile pic :("
             ]
-        Loading ->
+        Profile.Loading ->
             [ text  "Loading profile pic..." 
             ]
-        Success url ->
+        Profile.Success url ->
             [ img [src url, class "img-thumbnail"] []
             ]
+
+
 homeCardList : List (Card.Config msg)
 homeCardList = 
     [ homeCard "About" 

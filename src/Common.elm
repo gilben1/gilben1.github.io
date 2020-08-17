@@ -1,4 +1,7 @@
-module Common exposing (Model, Msg(..), ProfileState(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass)
+
+--Pre-common module loads
+import Profile exposing (..)
 
 import Browser
 import Browser.Navigation as Nav
@@ -19,20 +22,15 @@ type alias Model =
     , accordionState : Accordion.State
     , url : Url.Url
     , key : Nav.Key
-    , profileState : ProfileState
+    , profileState : Profile.State
     }
-
-type ProfileState
-    = Failure
-    | Loading
-    | Success String
 
 type Msg
     = TabMsg Tab.State
     | AccordionMsg Accordion.State
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
-    | ProfileLoaded (Result Http.Error String)
+    | ProfileMsg Profile.Msg
 
 
 defaultRowAlignment : List (Row.Option msg)
