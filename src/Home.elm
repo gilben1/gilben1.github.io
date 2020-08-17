@@ -1,10 +1,8 @@
 module Home exposing (..)
-import Common exposing (defaultColAlignment)
 import Html.Attributes exposing (default)
-import Common exposing (rowClass)
 
--- Custom imports from local modules
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment)
+-- Common module import, holds models common definitions
+import Common exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -34,13 +32,13 @@ viewHome model =
 viewProfilePic : Model -> List (Html Msg)
 viewProfilePic model =
     case model.profileState of
-        Common.Failure ->
+        Failure ->
             [ text "Unable to load profile pic :("
             ]
-        Common.Loading ->
+        Loading ->
             [ text  "Loading profile pic..." 
             ]
-        Common.Success url ->
+        Success url ->
             [ img [src url, class "img-thumbnail"] []
             ]
 homeCardList : List (Card.Config msg)

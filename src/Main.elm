@@ -1,10 +1,8 @@
 module Main exposing (..)
 import Html exposing (br)
-import Common exposing (defaultRowAlignment)
-import Common exposing (defaultColAlignment)
 
 -- Custom imports from local modules
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
+import Common exposing (..)
 import Project exposing (viewProject)
 import Home exposing (viewHome)
 import Resume exposing (viewResume)
@@ -15,8 +13,6 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
-import Common exposing (ProfileState)
-import Common exposing (Msg)
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
@@ -46,7 +42,7 @@ init toMsg url key =
          , accordionState = Accordion.initialState
          , url = url
          , key = key
-         , profileState = Common.Loading
+         , profileState = Loading
         }, loadGithubProfile)
 
 
@@ -58,7 +54,7 @@ update msg model =
         AccordionMsg state ->
             ( { model | accordionState = state }, Cmd.none )
 
-        Common.ProfileLoaded result ->
+        ProfileLoaded result ->
             case result of
                 Ok url ->
                     ( {model | profileState = Common.Success url}, Cmd.none)
@@ -133,7 +129,7 @@ loadGithubProfile : Cmd Msg
 loadGithubProfile = 
     Http.get
         { url = "https://api.github.com/users/gilben1"
-        , expect = Http.expectJson Common.ProfileLoaded githubDecoder
+        , expect = Http.expectJson ProfileLoaded githubDecoder
         }
 
 githubDecoder : Decoder String

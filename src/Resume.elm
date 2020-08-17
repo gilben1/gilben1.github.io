@@ -1,6 +1,7 @@
 module Resume exposing (..)
 
-import Common exposing (Msg(..), Model, defaultColAlignment, defaultRowAlignment, colClass, rowClass)
+-- Common module import, holds models common definitions
+import Common exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,11 +9,6 @@ import Html.Attributes exposing (..)
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Row as Row 
 import Bootstrap.Grid.Col as Col
-import Bootstrap.Text as Text
-import Bootstrap.Accordion as Accordion
-import Bootstrap.Card.Block as Block 
-import Bootstrap.Card as Card
-import Bootstrap.Alert exposing (secondary)
 
 viewResume : Model -> List (Html Msg)
 viewResume model =
