@@ -1,18 +1,13 @@
-module Commands exposing (loadGithubProfile, githubDecoder)
+module Commands exposing (loadGithubProfile)
 
 import Common exposing(Msg(..))
 import Profile exposing(State(..))
 
 import Http
-import Json.Decode exposing (Decoder, field, string)
 
 loadGithubProfile : Cmd Profile.Msg
 loadGithubProfile = 
     Http.get
         { url = "https://api.github.com/users/gilben1"
-        , expect = Http.expectJson Profile.ProfileLoaded githubDecoder
+        , expect = Http.expectJson Profile.ProfileLoaded Profile.githubProfileDecoder
         }
-
-githubDecoder : Decoder String
-githubDecoder =
-    field "avatar_url" string

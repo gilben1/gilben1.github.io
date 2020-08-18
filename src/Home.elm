@@ -39,8 +39,8 @@ viewProfilePic model =
         Profile.Loading ->
             [ text  "Loading profile pic..." 
             ]
-        Profile.Success url ->
-            [ img [src url, class "img-thumbnail"] []
+        Profile.Success userProfile ->
+            [ img [src userProfile.url, class "img-thumbnail"] []
             ]
 
 
@@ -51,7 +51,7 @@ homeCardList =
         , "Written in Elm and utilizing Elm Bootstrap 4 for a responsive web experience."
         ]
     , homeCard "Progress" [ "This site is very much a work in progress" ]
-    , homeCard "Thank You!" [ "Thank you for checking out this web page." ]
+    , homeCard "REST API Calls" [ "Pulls some GitHub profile data directly from Github via REST API calls!" ]
     ]
 
 

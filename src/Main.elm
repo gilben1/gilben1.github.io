@@ -61,8 +61,8 @@ update msg model =
             case pMsg of 
                 ProfileLoaded result ->
                     case result of
-                        Ok url ->
-                            ( {model | profileState = Profile.Success url}, Cmd.none)
+                        Ok userProfile ->
+                            ( {model | profileState = Profile.Success userProfile}, Cmd.none)
                         Err _ ->
                             ( {model | profileState = Profile.Failure}, Cmd.none)
 
