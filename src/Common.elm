@@ -2,6 +2,7 @@ module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment
 
 --Pre-common module loads
 import Profile exposing (..)
+import RepoStats exposing (..)
 
 import Browser
 import Browser.Navigation as Nav
@@ -23,6 +24,7 @@ type alias Model =
     , url : Url.Url
     , key : Nav.Key
     , profileState : Profile.State
+    , repoInfoState : RepoStats.State
     }
 
 type Msg
@@ -31,6 +33,7 @@ type Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | ProfileMsg Profile.Msg
+    | RepoInfoMsg RepoStats.Msg
 
 
 defaultRowAlignment : List (Row.Option msg)
