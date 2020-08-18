@@ -1,5 +1,4 @@
 module Main exposing (..)
-import Html exposing (br)
 
 -- Custom imports from local modules
 import Common exposing (..)
@@ -15,14 +14,13 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Common exposing (Msg(..))
+import RepoStats exposing (Msg(..))
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
-
-import Http
-import Json.Decode exposing (Decoder, field, string)
 
 
 
@@ -40,12 +38,22 @@ main =
  
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Common.Msg )
 init toMsg url key =
-        ({ tabState = Tab.initialState
-         , accordionState = Accordion.initialState
-         , url = url
-         , key = key
-         , profileState = Profile.Loading
-        }, Cmd.map ProfileMsg Commands.loadGithubProfile)
+    let 
+        model = 
+            { tabState = Tab.initialState
+            , accordionState = Accordion.initialState
+            , url = url
+            , key = key
+            , profileState = Profile.Loading
+            , repoInfoState = RepoStats.Loading
+            }
+
+        cmds = 
+            Cmd.batch
+                [ Cmd.map ProfileMsg Commands.loadGithubProfile
+                , Cmd.map RepoInfoMsg Commands.loadGithubRepoInfo ]
+    in
+        (model, cmds)
         
 
 
@@ -61,10 +69,20 @@ update msg model =
             case pMsg of 
                 ProfileLoaded result ->
                     case result of
-                        Ok url ->
-                            ( {model | profileState = Profile.Success url}, Cmd.none)
+                        Ok userProfile ->
+                            ( {model | profileState = Profile.Success userProfile}, Cmd.none)
                         Err _ ->
                             ( {model | profileState = Profile.Failure}, Cmd.none)
+
+        RepoInfoMsg rMsg ->
+            case rMsg of
+                RepoLoaded result ->
+                    case result of
+                        Ok repoInfo ->
+                            ( {model | repoInfoState = RepoStats.Success repoInfo}, Cmd.none)
+                        Err _ ->
+                            ( {model | repoInfoState = RepoStats.Failure}, Cmd.none)
+
 
         LinkClicked urlRequest ->
             case urlRequest of
