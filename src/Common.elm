@@ -26,6 +26,7 @@ type alias Model =
     , key : Nav.Key
     , profileState : Github.Profile.State
     , repoInfoState : Github.RepoStats.State
+    , repoIssuesState : Github.RepoStats.State
     , timeZone : Time.Zone
     }
 
