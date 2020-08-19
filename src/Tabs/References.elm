@@ -1,4 +1,4 @@
-module Tabs.References exposing (..)
+module Tabs.References exposing (viewReferences)
 
 -- Common module import, holds models common definitions
 import Common exposing(..)

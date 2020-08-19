@@ -9,6 +9,7 @@ import Tabs.Project exposing (viewProject)
 import Tabs.Home exposing (viewHome)
 import Tabs.Resume exposing (viewResume)
 import Tabs.References exposing (viewReferences)
+import Tabs.Stats exposing (viewStats)
 
 import Browser
 import Browser.Navigation as Nav
@@ -139,6 +140,13 @@ menu model =
                 , pane =
                     Tab.pane [ Spacing.mt3 ]
                        (viewResume model)
+                }
+            , Tab.item
+                { id = "tabStats"
+                , link = Tab.link [ class "tab-link" ] [ text "Stats" ]
+                , pane =
+                    Tab.pane [ Spacing.mt3 ]
+                        (viewStats model)
                 }
             , Tab.item
                 { id = "tabRefs"

@@ -1,4 +1,4 @@
-module Tabs.Home exposing (..)
+module Tabs.Home exposing (viewHome)
 
 -- Common module import, holds models common definitions
 import Common exposing (..)
@@ -30,12 +30,6 @@ viewHome model =
             [ Card.group homeCardList ]
         , Grid.col [Col.xl3, Col.lg3, Col.md2, Col.sm1] []
         ]
-    , Grid.row [Row.bottomXs, rowClass ""]
-        [ Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
-        , Grid.col defaultColAlignment
-            [ Card.group (viewRepoStatsCards model) ]
-        , Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
-        ]
     ]
 
 viewProfilePic : Model -> List (Html Common.Msg)
@@ -51,26 +45,6 @@ viewProfilePic model =
             [ img [src userProfile.url, class "img-thumbnail"] []
             ]
 
-viewRepoStatsCards : Model -> List (Card.Config msg)
-viewRepoStatsCards model =
-    case model.repoInfoState of
-        Github.RepoStats.Failure ->
-            [ homeCard "Repo Stats"
-                [ "Failed to load repository stats :(" ]
-            ]
-        Github.RepoStats.Loading ->
-            [ homeCard "Repo Stats"
-                [ "Loading repository stats..." ]
-            ]
-        Github.RepoStats.Success repoInfo ->
-            [ homeCard "Repo Stats"
-                [ "Repo Name: " ++ repoInfo.name
-                , "Repo initially created on " ++ Common.timeString model repoInfo.created_at
-                , "Last push: " ++ Common.timeString model repoInfo.pushed_at
-                , "Primary repo language: " ++ repoInfo.language
-                , "Stats pulled via Github's native REST API"
-                ]
-            ]
 
 homeCardList : List (Card.Config msg)
 homeCardList = 

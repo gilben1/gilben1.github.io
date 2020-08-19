@@ -6,10 +6,8 @@ import Github.RepoStats exposing (State(..))
 
 import Http
 import Task
-import Time exposing (..)
-import Iso8601 exposing(..)
+import Time exposing (here)
 
-import Tabs.Project exposing (RepoLink(..))
 
 loadGithubProfile : Cmd Github.Profile.Msg
 loadGithubProfile = 
