@@ -1,4 +1,4 @@
-module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString)
 
 --Pre-common module loads
 import Profile exposing (..)
@@ -17,6 +17,8 @@ import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Html.Events exposing (..)
 import Http
+import Time exposing (..)
+import String exposing (fromInt)
 
 type alias Model =
     { tabState : Tab.State
@@ -25,13 +27,17 @@ type alias Model =
     , key : Nav.Key
     , profileState : Profile.State
     , repoInfoState : RepoStats.State
+    , timeZone : Time.Zone
     }
+
+
 
 type Msg
     = TabMsg Tab.State
     | AccordionMsg Accordion.State
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | GetTimeZone Time.Zone
     | ProfileMsg Profile.Msg
     | RepoInfoMsg RepoStats.Msg
 
@@ -51,3 +57,30 @@ colClass className =
 rowClass : String -> Row.Option msg
 rowClass className = 
     Row.attrs [ class className ]
+
+timeString : Model -> Time.Posix -> String
+timeString model timeToConvert =
+    let
+        year = toYear model.timeZone timeToConvert 
+                |> fromInt
+        month = case toMonth model.timeZone timeToConvert of
+                    Jan -> "January"
+                    Feb -> "February"
+                    Mar -> "March"
+                    Apr -> "April"
+                    May -> "May"
+                    Jun -> "June"
+                    Jul -> "July"
+                    Aug -> "August"
+                    Sep -> "September"
+                    Oct -> "October"
+                    Nov -> "November"
+                    Dec -> "December"
+        day = toDay model.timeZone timeToConvert
+                |> fromInt
+        hour = toHour model.timeZone timeToConvert
+                |> fromInt
+        minute = toMinute model.timeZone timeToConvert
+                |> fromInt
+    in
+        month ++ " " ++ day ++ ", " ++ year ++ " at " ++ hour ++ ":" ++ minute
