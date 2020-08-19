@@ -2,21 +2,19 @@ module Main exposing (..)
 
 -- Custom imports from local modules
 import Common exposing (..)
-import Profile exposing (..)
+import Github.Profile exposing (Msg(..), State(..))
+import Github.RepoStats exposing (Msg(..))
 import Commands exposing (..)
-import Project exposing (viewProject)
-import Home exposing (viewHome)
-import Resume exposing (viewResume)
-import References exposing (viewReferences)
+import Tabs.Project exposing (viewProject)
+import Tabs.Home exposing (viewHome)
+import Tabs.Resume exposing (viewResume)
+import Tabs.References exposing (viewReferences)
 
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
-import Common exposing (Msg(..))
-import RepoStats exposing (Msg(..))
-import Commands
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
@@ -45,16 +43,16 @@ init toMsg url key =
             , accordionState = Accordion.initialState
             , url = url
             , key = key
-            , profileState = Profile.Loading
-            , repoInfoState = RepoStats.Loading
+            , profileState = Github.Profile.Loading
+            , repoInfoState = Github.RepoStats.Loading
             , timeZone = Time.utc
             }
 
         cmds = 
             Cmd.batch
-                [ Cmd.map ProfileMsg Commands.loadGithubProfile
-                , Cmd.map RepoInfoMsg Commands.loadGithubRepoInfo 
-                , Commands.getTimeZone
+                [ Cmd.map ProfileMsg loadGithubProfile
+                , Cmd.map RepoInfoMsg loadGithubRepoInfo 
+                , getTimeZone
                 ]
     in
         (model, cmds)
@@ -74,18 +72,18 @@ update msg model =
                 ProfileLoaded result ->
                     case result of
                         Ok userProfile ->
-                            ( {model | profileState = Profile.Success userProfile}, Cmd.none)
+                            ( {model | profileState = Github.Profile.Success userProfile}, Cmd.none)
                         Err _ ->
-                            ( {model | profileState = Profile.Failure}, Cmd.none)
+                            ( {model | profileState = Github.Profile.Failure}, Cmd.none)
 
         RepoInfoMsg rMsg ->
             case rMsg of
                 RepoLoaded result ->
                     case result of
                         Ok repoInfo ->
-                            ( {model | repoInfoState = RepoStats.Success repoInfo}, Cmd.none)
+                            ( {model | repoInfoState = Github.RepoStats.Success repoInfo}, Cmd.none)
                         Err _ ->
-                            ( {model | repoInfoState = RepoStats.Failure}, Cmd.none)
+                            ( {model | repoInfoState = Github.RepoStats.Failure}, Cmd.none)
 
         GetTimeZone state ->
             ( {model | timeZone = state}, Cmd.none)

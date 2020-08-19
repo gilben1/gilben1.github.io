@@ -1,4 +1,4 @@
-module Profile exposing (State(..), Msg(..), githubProfileDecoder, UserProfile)
+module Github.Profile exposing (State(..), Msg(..), githubProfileDecoder, UserProfile)
 
 import Http
 

@@ -1,4 +1,4 @@
-module Project exposing (..)
+module Tabs.Project exposing (..)
 
 -- Common module import, holds models common definitions
 import Common exposing (..)

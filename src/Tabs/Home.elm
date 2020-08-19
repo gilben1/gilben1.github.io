@@ -1,10 +1,9 @@
-module Home exposing (..)
-import Common
+module Tabs.Home exposing (..)
 
 -- Common module import, holds models common definitions
 import Common exposing (..)
-import Profile exposing (..)
-import RepoStats exposing (..)
+import Github.Profile exposing (..)
+import Github.RepoStats exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -17,7 +16,7 @@ import Bootstrap.Card.Block as Block
 import Bootstrap.Card as Card
 import Bootstrap.Alert exposing (secondary)
 
-import Time exposing (..)
+--import Time exposing (..)
 
 viewHome : Model -> List (Html Common.Msg)
 viewHome model =
@@ -42,28 +41,28 @@ viewHome model =
 viewProfilePic : Model -> List (Html Common.Msg)
 viewProfilePic model =
     case model.profileState of
-        Profile.Failure ->
+        Github.Profile.Failure ->
             [ text "Unable to load profile pic :("
             ]
-        Profile.Loading ->
+        Github.Profile.Loading ->
             [ text  "Loading profile pic..." 
             ]
-        Profile.Success userProfile ->
+        Github.Profile.Success userProfile ->
             [ img [src userProfile.url, class "img-thumbnail"] []
             ]
 
 viewRepoStatsCards : Model -> List (Card.Config msg)
 viewRepoStatsCards model =
     case model.repoInfoState of
-        RepoStats.Failure ->
+        Github.RepoStats.Failure ->
             [ homeCard "Repo Stats"
                 [ "Failed to load repository stats :(" ]
             ]
-        RepoStats.Loading ->
+        Github.RepoStats.Loading ->
             [ homeCard "Repo Stats"
                 [ "Loading repository stats..." ]
             ]
-        RepoStats.Success repoInfo ->
+        Github.RepoStats.Success repoInfo ->
             [ homeCard "Repo Stats"
                 [ "Repo Name: " ++ repoInfo.name
                 , "Repo initially created on " ++ Common.timeString model repoInfo.created_at

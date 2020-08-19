@@ -1,4 +1,4 @@
-module Resume exposing (..)
+module Tabs.Resume exposing (..)
 
 -- Common module import, holds models common definitions
 import Common exposing (..)
