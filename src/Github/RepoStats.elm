@@ -1,4 +1,4 @@
-module RepoStats exposing (State(..), RepoInfo, Msg(..), githubRepoDecoder)
+module Github.RepoStats exposing (State(..), RepoInfo, Msg(..), githubRepoDecoder)
 
 import Http
 

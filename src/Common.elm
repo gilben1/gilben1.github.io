@@ -1,8 +1,8 @@
 module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString)
 
 --Pre-common module loads
-import Profile exposing (..)
-import RepoStats exposing (..)
+import Github.Profile exposing (..)
+import Github.RepoStats exposing (..)
 
 import Browser
 import Browser.Navigation as Nav
@@ -16,7 +16,6 @@ import Bootstrap.Text as Text
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Html.Events exposing (..)
-import Http
 import Time exposing (..)
 import String exposing (fromInt)
 
@@ -25,8 +24,8 @@ type alias Model =
     , accordionState : Accordion.State
     , url : Url.Url
     , key : Nav.Key
-    , profileState : Profile.State
-    , repoInfoState : RepoStats.State
+    , profileState : Github.Profile.State
+    , repoInfoState : Github.RepoStats.State
     , timeZone : Time.Zone
     }
 
@@ -38,8 +37,8 @@ type Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | GetTimeZone Time.Zone
-    | ProfileMsg Profile.Msg
-    | RepoInfoMsg RepoStats.Msg
+    | ProfileMsg Github.Profile.Msg
+    | RepoInfoMsg Github.RepoStats.Msg
 
 
 defaultRowAlignment : List (Row.Option msg)
