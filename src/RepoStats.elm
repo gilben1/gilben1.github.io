@@ -2,8 +2,12 @@ module RepoStats exposing (State(..), RepoInfo, Msg(..), githubRepoDecoder)
 
 import Http
 
-import Json.Decode as Decode exposing (Decoder, int, string, float)
-import Json.Decode.Pipeline exposing (required, optional, hardcoded)
+import Json.Decode as Decode exposing (Decoder, string,  succeed)
+import Json.Decode.Pipeline exposing (required)
+import Json.Decode.Extra exposing (datetime)
+
+import Time
+
 
 type State
     = Failure
@@ -11,8 +15,8 @@ type State
     | Success RepoInfo
 
 type alias RepoInfo =
-    { created_at : String
-    , pushed_at : String
+    { created_at : Time.Posix
+    , pushed_at : Time.Posix
     , language : String
     , name : String 
     , url : String
@@ -24,8 +28,8 @@ type Msg
 githubRepoDecoder : Decoder RepoInfo
 githubRepoDecoder =
     Decode.succeed RepoInfo
-        |> required "created_at" string
-        |> required "pushed_at" string
+        |> required "created_at" datetime
+        |> required "pushed_at" datetime
         |> required "language" string
         |> required "name" string
         |> required "html_url" string

@@ -16,13 +16,14 @@ import Html.Attributes exposing (..)
 import Url
 import Common exposing (Msg(..))
 import RepoStats exposing (Msg(..))
+import Commands
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 
-
+import Time
 
 main : Program () Model Common.Msg
 main =
@@ -46,12 +47,15 @@ init toMsg url key =
             , key = key
             , profileState = Profile.Loading
             , repoInfoState = RepoStats.Loading
+            , timeZone = Time.utc
             }
 
         cmds = 
             Cmd.batch
                 [ Cmd.map ProfileMsg Commands.loadGithubProfile
-                , Cmd.map RepoInfoMsg Commands.loadGithubRepoInfo ]
+                , Cmd.map RepoInfoMsg Commands.loadGithubRepoInfo 
+                , Commands.getTimeZone
+                ]
     in
         (model, cmds)
         
@@ -83,6 +87,8 @@ update msg model =
                         Err _ ->
                             ( {model | repoInfoState = RepoStats.Failure}, Cmd.none)
 
+        GetTimeZone state ->
+            ( {model | timeZone = state}, Cmd.none)
 
         LinkClicked urlRequest ->
             case urlRequest of

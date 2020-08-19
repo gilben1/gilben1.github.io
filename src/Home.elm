@@ -1,9 +1,5 @@
 module Home exposing (..)
-import Html.Attributes exposing (default)
-import RepoStats
-import RepoStats exposing (RepoInfo)
-import Common exposing (rowClass)
-import Common exposing (defaultColAlignment)
+import Common
 
 -- Common module import, holds models common definitions
 import Common exposing (..)
@@ -20,6 +16,8 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Card.Block as Block 
 import Bootstrap.Card as Card
 import Bootstrap.Alert exposing (secondary)
+
+import Time exposing (..)
 
 viewHome : Model -> List (Html Common.Msg)
 viewHome model =
@@ -68,8 +66,8 @@ viewRepoStatsCards model =
         RepoStats.Success repoInfo ->
             [ homeCard "Repo Stats"
                 [ "Repo Name: " ++ repoInfo.name
-                , "Repo initially created on " ++ repoInfo.created_at 
-                , "Last push (UTC): " ++ repoInfo.pushed_at
+                , "Repo initially created on " ++ Common.timeString model repoInfo.created_at
+                , "Last push: " ++ Common.timeString model repoInfo.pushed_at
                 , "Primary repo language: " ++ repoInfo.language
                 , "Stats pulled via Github's native REST API"
                 ]
