@@ -46,13 +46,15 @@ init toMsg url key =
             , key = key
             , profileState = Github.Profile.Loading
             , repoInfoState = Github.RepoStats.Loading
+            , repoIssuesState = Github.RepoStats.Loading
             , timeZone = Time.utc
             }
 
         cmds = 
             Cmd.batch
                 [ Cmd.map ProfileMsg loadGithubProfile
-                , Cmd.map RepoInfoMsg loadGithubRepoInfo 
+                , Cmd.map RepoInfoMsg loadGithubRepoInfo
+                , Cmd.map RepoInfoMsg loadGithubIssues
                 , getTimeZone
                 ]
     in
@@ -82,9 +84,15 @@ update msg model =
                 RepoLoaded result ->
                     case result of
                         Ok repoInfo ->
-                            ( {model | repoInfoState = Github.RepoStats.Success repoInfo}, Cmd.none)
+                            ( {model | repoInfoState = Github.RepoStats.InfoSuccess repoInfo}, Cmd.none)
                         Err _ ->
                             ( {model | repoInfoState = Github.RepoStats.Failure}, Cmd.none)
+                IssuesLoaded result ->
+                    case result of
+                        Ok issuesList ->
+                            ( {model | repoIssuesState = Github.RepoStats.IssueSuccess issuesList}, Cmd.none)
+                        Err _ ->
+                            ( {model | repoIssuesState = Github.RepoStats.Failure}, Cmd.none)
 
         GetTimeZone state ->
             ( {model | timeZone = state}, Cmd.none)

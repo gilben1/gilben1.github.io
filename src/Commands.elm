@@ -1,4 +1,4 @@
-module Commands exposing (loadGithubProfile, loadGithubRepoInfo, getTimeZone)
+module Commands exposing (loadGithubProfile, loadGithubRepoInfo, loadGithubIssues, getTimeZone)
 
 import Common exposing(Msg(..))
 import Github.Profile exposing(State(..))
@@ -21,6 +21,13 @@ loadGithubRepoInfo =
     Http.get
         { url = "https://api.github.com/repos/gilben1/gilben1.github.io"
         , expect = Http.expectJson Github.RepoStats.RepoLoaded Github.RepoStats.githubRepoDecoder
+        }
+
+loadGithubIssues : Cmd Github.RepoStats.Msg
+loadGithubIssues =
+    Http.get
+        { url = "https://api.github.com/repos/gilben1/gilben1.github.io/issues"
+        , expect = Http.expectJson Github.RepoStats.IssuesLoaded Github.RepoStats.githubIssuesDecoder
         }
 
 getTimeZone : Cmd Common.Msg
