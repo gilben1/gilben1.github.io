@@ -1,7 +1,7 @@
 module Tabs.Stats exposing (viewStats)
 
 import Common exposing (..)
-import Github.RepoStats exposing (State(..))
+import Github.RepoStats exposing (State(..), Issue)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -12,6 +12,7 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Text as Text
 import Bootstrap.Card.Block as Block 
 import Bootstrap.Card as Card
+import Bootstrap.Badge as Badge
 import String exposing (fromInt)
 
 
@@ -27,12 +28,7 @@ viewStats model =
             [ Card.group (viewRepoStatsCards model) ]
         , Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
         ]
-    , Grid.row [Row.bottomXs, rowClass ""]
-        [ Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
-        , Grid.col defaultColAlignment
-            [ Card.group (viewRepoIssues model) ]
-        , Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
-        ]
+    , (repoIssues model)
     ]
 
 viewRepoStatsCards : Model -> List (Card.Config msg)
@@ -58,30 +54,45 @@ viewRepoStatsCards model =
         Github.RepoStats.IssueSuccess _ -> []
 
 
-viewRepoIssues : Model -> List (Card.Config msg)
-viewRepoIssues model =
+--viewRepoIssues : Model -> List (Card.Config msg)
+--viewRepoIssues model =
+--    case model.repoIssuesState of
+--        Github.RepoStats.Failure ->
+--            [ statCard "Issues" 
+--                [ "Failed to load repository issues :(" ]
+--            ]
+--        github.repostats.loading ->
+--            [ statcard "issues"
+--                [ "loading repository issues..." ]
+--            ]
+--        github.repostats.issuesuccess issuelist ->
+--            (list.map (\x -> issuecard model x) issuelist)
+--        github.repostats.infosuccess _ -> []
+            
+repoIssues : Model -> Html msg
+repoIssues model =
     case model.repoIssuesState of
         Github.RepoStats.Failure ->
-            [ statCard "Issues" 
-                [ "Failed to load repository issues :(" ]
-            ]
+            Grid.row [Row.topXs] 
+                [ Grid.col [Col.textAlign Text.alignXsCenter]
+                    [ text "Failed to load repository issues :(" ]
+                ]
         Github.RepoStats.Loading ->
-            [ statCard "Issues"
-                [ "Loading repository issues..." ]
-            ]
+            Grid.row [Row.topXs]
+                [ Grid.col [Col.textAlign Text.alignXsCenter]
+                    [ text "Loading repository issues..." ]
+                ]
         Github.RepoStats.IssueSuccess issueList ->
-            (List.map 
-                (\x -> statCard ("Issue #" ++ fromInt x.number ++ ": " ++ x.title)
-                    [ "\"" ++ x.body ++ "\""
-                    , "State: " ++ x.state
-                    , "Issue created: " ++ Common.timeString model x.created_at
-                    , "Issue updated: " ++ Common.timeString model x.updated_at
-                    , "Url (make this a link eventually): " ++ x.url 
-                    ]
-                ) issueList)
-        Github.RepoStats.InfoSuccess _ -> []
-            
-
+            Grid.row [Row.topXs]
+                (List.map (\x ->
+                    Grid.col []
+                        [ issueCard model x ]
+                ) issueList )
+        Github.RepoStats.InfoSuccess _ ->
+            Grid.row []
+                [ Grid.col []
+                    [ text "You shouldn't see this..." ]
+                ]
 
 statCard : String -> List (String) -> Card.Config msg
 statCard title body =
@@ -89,3 +100,40 @@ statCard title body =
         |> Card.headerH5 [] [ text title ]
         |> Card.block []
             (List.map (\x -> Block.text [] [text x]) body)
+
+issueCard : Model -> Issue -> Html msg
+issueCard model issue = 
+    Card.config [Card.outlinePrimary]
+        |> Card.headerH5 [] ([ text ("Issue #" ++ fromInt issue.number ++ " ") ] ++ isPR issue)
+        |> Card.block []
+            [ Block.titleH6 [] [ text issue.title ]
+            , Block.quote [] [ text issue.body ]
+            , Block.text [] 
+                [ Grid.row [Row.middleXs]
+                    [ Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdLeft]
+                        [ text ("State: " ++ issue.state) ]
+                    , Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdRight]
+                         [ text ("Opened by " ++ issue.creator) ]
+                    ]  
+                ]
+            , Block.link [ href issue.url ] [ text "Link" ]
+            ]
+        |> Card.footer [] 
+            [ small [class "text-muted" ] 
+                [ Grid.row [Row.middleXs]
+                    [ Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdLeft]
+                        [ text ("Created: " ++ Common.timeString model issue.created_at) ]
+                    , Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdRight]
+                        [ text ("Last Updated: " ++ Common.timeString model issue.updated_at) ]
+                    ]
+                ]
+            ] 
+        |> Card.view
+
+
+
+isPR : Issue -> List (Html msg)
+isPR issue =
+    case issue.pr_url of
+       "NULL" -> []
+       _ -> [Badge.badgeSecondary [] [ text "PR" ] ]

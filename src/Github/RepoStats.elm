@@ -1,9 +1,9 @@
-module Github.RepoStats exposing (State(..), RepoInfo, Msg(..), githubRepoDecoder, githubIssuesDecoder)
+module Github.RepoStats exposing (State(..), RepoInfo, Issue, Msg(..), githubRepoDecoder, githubIssuesDecoder)
 
 import Http
 
 import Json.Decode as Decode exposing (Decoder, string, int, succeed)
-import Json.Decode.Pipeline exposing (required)
+import Json.Decode.Pipeline exposing (required, requiredAt, optionalAt)
 import Json.Decode.Extra exposing (datetime)
 
 import Time
@@ -28,9 +28,11 @@ type alias Issue =
     , number : Int
     , title : String
     , body : String
+    , creator : String
     , created_at : Time.Posix
     , updated_at : Time.Posix
     , state : String
+    , pr_url : String
     }
 
 type Msg
@@ -53,9 +55,11 @@ singleIssueDecoder =
         |> required "number" int
         |> required "title" string
         |> required "body" string
+        |> requiredAt ["user", "login"] string
         |> required "created_at" datetime
         |> required "updated_at" datetime
         |> required "state" string
+        |> optionalAt ["pull_request", "html_url" ] string "NULL"
 
 githubIssuesDecoder : Decoder (List Issue)
 githubIssuesDecoder =
