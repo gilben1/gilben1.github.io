@@ -1,4 +1,4 @@
-module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString, timeAgo)
 
 --Pre-common module loads
 import Github.Profile exposing (..)
@@ -17,6 +17,7 @@ import Bootstrap.Tab as Tab
 import Bootstrap.Accordion as Accordion
 import Html.Events exposing (..)
 import Time exposing (..)
+import Time.Extra exposing (diff, Interval(..))
 import String exposing (fromInt)
 
 type alias Model =
@@ -28,6 +29,7 @@ type alias Model =
     , repoInfoState : Github.RepoStats.State
     , repoIssuesState : Github.RepoStats.State
     , timeZone : Time.Zone
+    , currentTime : Time.Posix
     }
 
 
@@ -38,6 +40,7 @@ type Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | GetTimeZone Time.Zone
+    | GetCurrentTime Time.Posix
     | ProfileMsg Github.Profile.Msg
     | RepoInfoMsg Github.RepoStats.Msg
 
@@ -84,3 +87,40 @@ timeString model timeToConvert =
                 |> fromInt
     in
         month ++ " " ++ day ++ ", " ++ year ++ " at " ++ hour ++ ":" ++ minute
+
+timeAgo : Model -> Time.Posix -> String
+timeAgo model timeToConvert =
+    let
+        weekDiff = diff Week model.timeZone  timeToConvert model.currentTime
+        dayDiff = diff Day model.timeZone timeToConvert model.currentTime
+        hourDiff = diff Hour model.timeZone timeToConvert model.currentTime
+        minDiff = diff Minute model.timeZone timeToConvert model.currentTime
+    in
+        let
+            weekCalc = weekDiff
+            dayCalc = dayDiff - (weekDiff * 7)
+            hourCalc = hourDiff - (dayDiff * 24)
+            minCalc = minDiff - (hourDiff * 60)
+        in
+            let
+                weekDisplay = case weekCalc of
+                                0 -> ""
+                                1 -> (weekCalc |> fromInt) ++ " week, "
+                                _ -> (weekCalc |> fromInt) ++ " weeks, "
+                dayDisplay = case dayCalc of
+                                0 -> ""
+                                1 -> (dayCalc |> fromInt) ++ " day, "
+                                _ -> (dayCalc |> fromInt) ++ " days, "
+                hourDisplay = case hourCalc of
+                                0 -> ""
+                                1 -> (hourCalc |> fromInt) ++ " hour, "
+                                _ -> (hourCalc |> fromInt) ++ " hours, "
+                minDisplay = case minCalc of
+                                0 -> ""
+                                1 -> (minCalc |> fromInt) ++ " minute "
+                                _ -> (minCalc |> fromInt) ++ " minutes "
+            in
+                case [weekDisplay, dayDisplay, hourDisplay, minDisplay] of
+                    ["", "", "", ""] -> ""
+                    _ -> "(" ++ weekDisplay ++ dayDisplay ++ hourDisplay ++ minDisplay ++ "ago)"
+            
