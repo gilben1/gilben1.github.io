@@ -16,6 +16,7 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Commands exposing (getCurrentTime)
 
 -- Bootstrap imports
 import Bootstrap.Utilities.Spacing as Spacing
@@ -48,6 +49,7 @@ init toMsg url key =
             , repoInfoState = Github.RepoStats.Loading
             , repoIssuesState = Github.RepoStats.Loading
             , timeZone = Time.utc
+            , currentTime = Time.millisToPosix 0
             }
 
         cmds = 
@@ -56,6 +58,7 @@ init toMsg url key =
                 , Cmd.map RepoInfoMsg loadGithubRepoInfo
                 , Cmd.map RepoInfoMsg loadGithubIssues
                 , getTimeZone
+                , getCurrentTime
                 ]
     in
         (model, cmds)
@@ -96,6 +99,9 @@ update msg model =
 
         GetTimeZone state ->
             ( {model | timeZone = state}, Cmd.none)
+        
+        GetCurrentTime time ->
+            ( {model | currentTime = time}, Cmd.none)
 
         LinkClicked urlRequest ->
             case urlRequest of

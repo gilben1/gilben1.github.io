@@ -28,7 +28,11 @@ viewStats model =
             [ Card.group (viewRepoStatsCards model) ]
         , Grid.col [Col.xl4, Col.lg3, Col.md2, Col.sm1] []
         ]
-    , (repoIssues model)
+    , Grid.row [Row.middleXs]
+        [ Grid.col defaultColAlignment
+            [ h2 [] [ text "Issues and Pull Requests" ] ]
+        ]
+    , repoIssues model
     ]
 
 viewRepoStatsCards : Model -> List (Card.Config msg)
@@ -53,21 +57,6 @@ viewRepoStatsCards model =
             ]
         Github.RepoStats.IssueSuccess _ -> []
 
-
---viewRepoIssues : Model -> List (Card.Config msg)
---viewRepoIssues model =
---    case model.repoIssuesState of
---        Github.RepoStats.Failure ->
---            [ statCard "Issues" 
---                [ "Failed to load repository issues :(" ]
---            ]
---        github.repostats.loading ->
---            [ statcard "issues"
---                [ "loading repository issues..." ]
---            ]
---        github.repostats.issuesuccess issuelist ->
---            (list.map (\x -> issuecard model x) issuelist)
---        github.repostats.infosuccess _ -> []
             
 repoIssues : Model -> Html msg
 repoIssues model =
@@ -122,9 +111,15 @@ issueCard model issue =
             [ small [class "text-muted" ] 
                 [ Grid.row [Row.middleXs]
                     [ Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdLeft]
-                        [ text ("Created: " ++ Common.timeString model issue.created_at) ]
+                        [ text ("Created: " ++ Common.timeString model issue.created_at)]
                     , Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdRight]
                         [ text ("Last Updated: " ++ Common.timeString model issue.updated_at) ]
+                    ]
+                , Grid.row [Row.middleXs]
+                    [ Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdLeft]
+                        [ text (Common.daysAgo model issue.created_at)]
+                    , Grid.col [Col.xs12, Col.sm, Col.textAlign Text.alignSmCenter, Col.textAlign Text.alignMdRight]
+                        [ text (Common.daysAgo model issue.updated_at) ]
                     ]
                 ]
             ] 

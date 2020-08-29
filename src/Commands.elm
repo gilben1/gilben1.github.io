@@ -1,4 +1,4 @@
-module Commands exposing (loadGithubProfile, loadGithubRepoInfo, loadGithubIssues, getTimeZone)
+module Commands exposing (loadGithubProfile, loadGithubRepoInfo, loadGithubIssues, getTimeZone, getCurrentTime)
 
 import Common exposing(Msg(..))
 import Github.Profile exposing(State(..))
@@ -34,3 +34,6 @@ getTimeZone : Cmd Common.Msg
 getTimeZone =
     Task.perform Common.GetTimeZone Time.here
 
+getCurrentTime : Cmd Common.Msg
+getCurrentTime = 
+    Task.perform Common.GetCurrentTime Time.now
