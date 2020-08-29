@@ -1,4 +1,4 @@
-module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString, daysAgo)
+module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString, timeAgo)
 import String exposing (fromInt)
 
 --Pre-common module loads
@@ -89,8 +89,8 @@ timeString model timeToConvert =
     in
         month ++ " " ++ day ++ ", " ++ year ++ " at " ++ hour ++ ":" ++ minute
 
-daysAgo : Model -> Time.Posix -> String
-daysAgo model timeToConvert =
+timeAgo : Model -> Time.Posix -> String
+timeAgo model timeToConvert =
     let
         weekDiff = diff Week model.timeZone  timeToConvert model.currentTime
         dayDiff = diff Day model.timeZone timeToConvert model.currentTime
