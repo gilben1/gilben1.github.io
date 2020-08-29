@@ -1,5 +1,4 @@
 module Common exposing (Model, Msg(..), defaultRowAlignment, defaultColAlignment, colClass, rowClass, timeString, timeAgo)
-import String exposing (fromInt)
 
 --Pre-common module loads
 import Github.Profile exposing (..)
