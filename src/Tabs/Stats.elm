@@ -49,8 +49,8 @@ viewRepoStatsCards model =
         Github.RepoStats.InfoSuccess repoInfo ->
             [ statCard "Repo Stats"
                 [ "Repo Name: " ++ repoInfo.name
-                , "Repo initially created on " ++ Common.timeString model repoInfo.created_at
-                , "Last push: " ++ Common.timeString model repoInfo.pushed_at
+                , "Repo initially created on " ++ Common.timeString model repoInfo.created_at ++ " " ++ Common.timeAgo model repoInfo.created_at
+                , "Last push: " ++ Common.timeString model repoInfo.pushed_at ++ " " ++ Common.timeAgo model repoInfo.pushed_at
                 , "Primary repo language: " ++ repoInfo.language
                 , "Stats pulled via Github's native REST API"
                 ]
