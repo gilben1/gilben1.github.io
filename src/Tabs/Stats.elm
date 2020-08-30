@@ -73,10 +73,10 @@ repoIssues model =
                 ]
         Github.RepoStats.IssueSuccess issueList ->
             Grid.row [Row.topXs]
-                (List.map (\x ->
+                ( List.map (\x ->
                     Grid.col []
                         [ issueCard model x ]
-                ) issueList )
+                ) issueList ++ [ Grid.col [Col.xs, Col.sm, Col.md6, Col.lg, Col.xl9] []])
         Github.RepoStats.InfoSuccess _ ->
             Grid.row []
                 [ Grid.col []
