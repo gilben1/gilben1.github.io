@@ -23,9 +23,15 @@
                     canvas.width = viewport.width;
                     page.render({canvasContext, viewport});
                 })
+                pdf.getPage(2).then(page => {
+                    let canvas = document.getElementById("pdf-canvas-2");
+                    let viewport = page.getViewport({scale: 1.5});
+                    let canvasContext = canvas.getContext("2d");
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    page.render({canvasContext, viewport});
+                })
             })
-            
-
         </script>
     </body>
 </html>
