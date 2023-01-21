@@ -2,3 +2,8 @@ baseURL: "https://gilbertdev.net"
 languageCode: "en-us"
 title: "Nicholas Gilbert Blog / Portfolio"
 theme: 'papermod'
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  description: "Portfolio for my work and also blog for my thoughts"
+  author: Nicholas Gilbert
