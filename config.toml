@@ -1,0 +1,4 @@
+baseURL = "https://gilbertdev.net"
+languageCode = "en-us"
+title = "Nicholas Gilbert Blog / Portfolio"
+theme = 'papermod'
