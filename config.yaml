@@ -1,9 +1,0 @@
-baseURL: "https://gilbertdev.net"
-languageCode: "en-us"
-title: "Nicholas Gilbert Blog / Portfolio"
-theme: 'papermod'
-
-params:
-  env: production
-  description: "Portfolio for my work and also blog for my thoughts"
-  author: Nicholas Gilbert
