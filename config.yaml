@@ -4,6 +4,6 @@ title: "Nicholas Gilbert Blog / Portfolio"
 theme: 'papermod'
 
 params:
-  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  env: production
   description: "Portfolio for my work and also blog for my thoughts"
   author: Nicholas Gilbert
