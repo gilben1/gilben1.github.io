@@ -3,27 +3,36 @@ languageCode: "en-us"
 title: "Nicholas Gilbert Blog / Portfolio"
 theme: 'papermod'
 
+menu:
+  main:
+    - name: Archive
+      url: archives
+      weight: 5
+    - name: Projects
+      url: projects/
+      weight: 10
+    - name: Tags
+      url: tags/
+      weight: 10
+
+taxonomies:
+  category: categories
+  tag: tags
+
 params:
   env: production
   description: "Portfolio for my work and also blog for my thoughts"
   author: Nicholas Gilbert
 
-  languages:
-      en:
-          languageName: "English"
-          weight: 1
-          taxonomies:
-            category: categories
-            tag: tags
-            series: series
-          menu:
-              main:
-                  - name: Archive
-                    url: archives
-                    weight: 5
-                  - name: Search
-                    url: search/
-                    weight: 10
-                  - name: Tags
-                    url: tags/
-                    weight: 10
+  homeInfoParams:
+    Title: Hello there!
+    Content: My name is Nicholas Gilbert, welcome to my blog / portfolio! Still a work a progress, but have a look around! Click some links!
+
+
+  socialIcons:
+        - name: github
+          url: "http://github.gilbertdev.net"
+        - name: gitlab
+          url: "http://gitlab.gilbertdev.net"
+        - name: LinkedIn
+          url: "http://linkedin.gilbertdev.net"
