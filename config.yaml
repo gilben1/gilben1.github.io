@@ -1,6 +1,6 @@
 baseURL: "https://gilbertdev.net"
 languageCode: "en-us"
-title: "Nicholas Gilbert Blog / Portfolio"
+title: "Nicholas Gilbert Blog"
 theme: 'papermod'
 
 menu:
