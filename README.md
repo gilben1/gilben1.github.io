@@ -1,2 +1,5 @@
-# Elm Homepage
-It's a personal homepage / portfolio / side project for me to work on
+# Blogfolio
+
+This is just a project for my personal blog / projects portfolio.
+
+Written in Hugo and uses the PaperMod theme.
