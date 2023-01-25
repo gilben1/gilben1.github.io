@@ -27,12 +27,6 @@ params:
   homeInfoParams:
     Title: Hello there!
     Content: My name is Nicholas Gilbert, welcome to my blog / portfolio! Still a work a progress, but have a look around! Click some links!
-    assets:
-      favicon: ""
-      favicon16x16:  ""
-      favicon32x32:  ""
-      apple_touch_icon:  ""
-      safari_pinned_tab:  ""
 
   socialIcons:
         - name: github
