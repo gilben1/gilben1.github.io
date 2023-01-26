@@ -56,10 +56,11 @@ From [this helpful issue](https://github.com/adityatelange/hugo-PaperMod/issues/
 Some other features that I became aware of but haven't touched are:
 - Post covers that show up amongst the post description. May or may not be useful for the sort of content I'm writing.
 - Breadcrumb navigation. May become more useful if I create distinction between post types. Right now I just have `posts` and primary content pages.
+- Custom headers and footers. I've made the stub html files `extend_head.html` and `extend_footer.html` but haven't fill them with anything yet.
 
 ### Touched-but-broken Features
 - Search. Attempted to make the changes necessary to allow search to work from [this section](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-features/#search-page), but including the `search.md` with the `search` layout caused the hugo server to fail to render the page.
   - This may be due to how I'm hosting the site, but the error first appeared when running locally so not entirely sure.
   - May come back to this later.
 
-I may include a little post blurb about the music I'm listening to as I write these. Might make for a fun little time-capsule of my music tastes as I write these.
+I may include a little post blurb about the music I'm listening to as I write these. Might make for a fun little time-capsule of my music tastes the longer I write.

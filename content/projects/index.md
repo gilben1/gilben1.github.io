@@ -23,11 +23,11 @@ It did look nice though.
 
 Below are some screenshots of what the site looked like:
 
-![](elm1.png#center)
-![](elm2.png#center) 
-![](elm3.png#center)
-![](elm4.png#center)
-![](elm5.png#center)
+{{< figure src="elm1.png" caption="Fig. 1 - Home Page" align=center >}}
+{{< figure src="elm2.png" caption="Fig. 2 - Projects Page" align=center >}}
+{{< figure src="elm3.png" caption="Fig. 3 - Embedded Resume" align=center >}}
+{{< figure src="elm4.png" caption="Fig. 4 - Stats Page" align=center >}}
+{{< figure src="elm5.png" caption="Fig. 5 - References" align=center >}}
 
 Link (will work eventually, right now just links back to this site): [gilben1.github.io](https://gilben1.github.io)
 
