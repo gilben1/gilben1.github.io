@@ -6,6 +6,9 @@ tags:
     - Hello world
     - Barely a post
     - Low effort
+ShowReadingTime: true
+showToc: false
+TocOpen: false
 ---
 
 ### New Blog, New Day

@@ -14,6 +14,9 @@ menu:
     - name: Tags
       url: tags/
       weight: 10
+    - Name: Repository
+      url: https://github.com/gilben1/gilben1.github.io
+      weight: 15
 
 taxonomies:
   category: categories
@@ -27,7 +30,6 @@ params:
   homeInfoParams:
     Title: Hello there!
     Content: My name is Nicholas Gilbert, welcome to my blog / portfolio! Still a work a progress, but have a look around! Click some links!
-
   socialIcons:
         - name: github
           url: "http://github.gilbertdev.net"
@@ -35,3 +37,4 @@ params:
           url: "http://gitlab.gilbertdev.net"
         - name: LinkedIn
           url: "http://linkedin.gilbertdev.net"
+  ShowPostNavLinks: true
