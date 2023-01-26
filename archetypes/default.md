@@ -5,8 +5,5 @@ date: {{ .Date }}
 publishDate: {{ .Date }}
 draft: true
 tags: []
-ShowToc: false
-TocOpen: false
-ShowReadingTime: true
 ---
 

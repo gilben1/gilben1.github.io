@@ -38,3 +38,6 @@ params:
         - name: LinkedIn
           url: "http://linkedin.gilbertdev.net"
   ShowPostNavLinks: true
+  ShowToc: true
+  TocOpen: false
+  ShowReadingTime: true

@@ -5,9 +5,6 @@ date: 2023-01-23T18:28:42-08:00
 publishDate: 2023-01-23T18:28:42-08:00
 draft: false
 tags: ["Hugo", "Tutorial", "Process"]
-ShowToc: true
-TocOpen: false
-ShowReadingTime: true
 ---
 
 ### Getting started with this whole "Blog" thing
