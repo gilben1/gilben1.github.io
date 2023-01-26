@@ -52,7 +52,7 @@ A Javascript robot puzzle game inspired by the board game "Ricochet Robots".
 
 Uses PixiJS as the rendering engine.
 
-![](robot1.png#center)
+{{< figure src="robot1.png" caption="Fig. 6 - Robot Bounce" align=center >}}
 
 | [Try it out](https://gilbertdev.net/robot-bounce/) | [GitHub Repository](https://github.com/gilben1/robot-bounce) |
 | --- | --- |
