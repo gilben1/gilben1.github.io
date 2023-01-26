@@ -1,5 +1,10 @@
 ---
 title: "Projects"
+description: "A bunch of stuff I've worked on"
+date: 2023-01-25T15:50:42-08:00
+ShowReadingTime: true
+showToc: true
+TocOpen: false
 ---
 
 ## A bunch of stuff I've worked on
@@ -15,6 +20,14 @@ The site used Elm and Elm-Bootstrap to make something expandable.
 I stopped using it because it became too much of a pain to update after not touching Elm for a while. The time it took to get back up to speed on what was planned was too much of a hassle to use long term.
 
 It did look nice though.
+
+Below are some screenshots of what the site looked like:
+
+![](elm1.png#center)
+![](elm2.png#center) 
+![](elm3.png#center)
+![](elm4.png#center)
+![](elm5.png#center)
 
 Link (will work eventually, right now just links back to this site): [gilben1.github.io](https://gilben1.github.io)
 
@@ -38,6 +51,8 @@ Version one was written in python, while redux was rewritten in haskell itself f
 A Javascript robot puzzle game inspired by the board game "Ricochet Robots".
 
 Uses PixiJS as the rendering engine.
+
+![](robot1.png#center)
 
 | [Try it out](https://gilbertdev.net/robot-bounce/) | [GitHub Repository](https://github.com/gilben1/robot-bounce) |
 | --- | --- |
