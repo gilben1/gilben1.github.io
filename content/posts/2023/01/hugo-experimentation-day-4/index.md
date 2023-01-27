@@ -4,7 +4,7 @@ description: "Customizing things further"
 date: 2023-01-25T16:21:35-08:00
 publishDate: 2023-01-25T16:21:35-08:00
 draft: false
-tags: ["hugo", "process", "PaperMod"]
+tags: ["Hugo", "Process", "PaperMod"]
 ---
 
 ### More Bells, More Whistles

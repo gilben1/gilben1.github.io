@@ -4,7 +4,7 @@ description: "Making the blog a little bit more spiffy"
 date: 2023-01-26T16:40:39-08:00
 publishDate: 2023-01-26T16:40:39-08:00
 draft: false
-tags: ["hugo", "papermod"]
+tags: ["Hugo", "PaperMod"]
 ---
 
 ### Colors
