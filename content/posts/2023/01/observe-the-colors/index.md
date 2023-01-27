@@ -45,6 +45,8 @@ The dark-mode in particular for this theme is very PowerShell blue, and since I'
 
 ### Aside: Favicon Issue
 
+*Update: not five minutes after posting: the issue was just a setting in the Github Pages configuration, see [this post](https://gilbertdev.net/posts/2023/01/locked-down) for the resolution*
+
 One unrelated issue I'm running into is the serving of a couple of favicon related items being stuck in `http` instead of `https`, causing Firefox to load them unencrypted and giving my site the amazing sheen of insecurity. 
 
 {{< figure src="favicon_blarg.png" caption="Mixed content, why?" align=center >}}
