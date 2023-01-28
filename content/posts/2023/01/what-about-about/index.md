@@ -31,7 +31,7 @@ content
    |--index.md
 ```
 
-It doesn't feel right to have a half-published about page, so I won't publish it until I'm happy with an initial version. So for now, you get a rambling about and about page that has yet to be.
+It doesn't feel right to have a half-published about page, so I won't publish it until I'm happy with an initial version. So for now, you get a rambling about an about page that has yet to be.
 
 ### Other Small Changes
 
