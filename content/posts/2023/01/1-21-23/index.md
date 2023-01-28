@@ -2,10 +2,7 @@
 title: "1-21-23"
 date: 2023-01-21T16:45:07-08:00
 draft: false
-tags: 
-    - Hello World
-    - Barely A Post
-    - Low Effort
+tags: ["Hello World", "Barely A Post", "Low Effort"] 
 ShowReadingTime: true
 showToc: false
 TocOpen: false

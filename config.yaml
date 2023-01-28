@@ -2,21 +2,25 @@ baseURL: "https://gilbertdev.net"
 languageCode: "en-us"
 title: "Nicholas Gilbert Blog"
 theme: 'papermod'
+paginate: 5
 
 menu:
   main:
-    - name: Archive
-      url: archives
-      weight: 5
+    #- name: About Me
+    #  url: /about/
+    #  weight: 4
     - name: Projects
-      url: projects/
-      weight: 10
+      url: /projects/
+      weight: 5
+    - name: Archive
+      url: /archives/
+      weight: 6
     - name: Tags
-      url: tags/
-      weight: 10
+      url: /tags/
+      weight: 7
     - Name: Repository
       url: https://github.com/gilben1/gilben1.github.io
-      weight: 15
+      weight: 8
 
 taxonomies:
   category: categories
@@ -29,7 +33,17 @@ params:
 
   homeInfoParams:
     Title: Hello there!
-    Content: My name is Nicholas Gilbert, welcome to my blog / portfolio! Still a work a progress, but have a look around! Click some links!
+    Content: |
+      My name is Nicholas Gilbert, welcome to my blog / portfolio! I'm a cloud administrator who specializes in automation using Powershell to yell at Azure / Azure adjacent things.
+      
+      -
+
+      This site is still a work a progress, but feel free to have a look around!
+      
+      -
+
+      Read some of my ramblings about making this blog and other tech-adjacent topics, or check out some of the old projects I've worked on.
+
   socialIcons:
         - name: github
           url: "http://github.gilbertdev.net"
