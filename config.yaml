@@ -3,7 +3,7 @@ languageCode: "en-us"
 title: "Nicholas Gilbert Blog"
 theme: 'papermod'
 paginate: 5
-disqusShortname: gilben2
+disqusShortname: https-gilbertdev-net
 
 menu:
   main:
