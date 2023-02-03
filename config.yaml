@@ -31,6 +31,7 @@ params:
   env: production
   description: "Portfolio for my work and also blog for my thoughts"
   author: Nicholas Gilbert
+  comments: true
 
   homeInfoParams:
     Title: Hello there!

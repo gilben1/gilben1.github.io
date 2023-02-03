@@ -46,5 +46,3 @@ The about me page is still in progress, just haven't gotten around to it. Will s
 You like jazz?
 
 Today was `Brilliant Corners` by `Thelonious Monk`, and what an album that was. Definitely appreciated this one more than the other two jazz albums we've covered so far in our journey, landing at 4 / 5.
-
-{{ partial "disqus.html" . }}
