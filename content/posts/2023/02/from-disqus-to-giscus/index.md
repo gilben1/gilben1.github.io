@@ -136,6 +136,10 @@ What I ended up needing to do, was replace the Disqus oriented `comments.html` u
 
 {{< figure src="giscus.png" caption="\\o/" align=center >}}
 
+#### Next steps
+
+I'll probably tinker with the theming of giscus to look good in both light and dark mode on this blog. For now, I've settled with the "Transparent Dark" Github theme, so that the dark blue is shown. I toyed around with the other built-in dark themes, but they clashed with the dark blue. The transparent dark is serviceable enough, though will probably bug me enough that the next thing I directly tackle is the theming.
+
 ### Conclusion and Thanks
 Giscus ended up being a breeze to set up, with only a couple of stumbling points with conflicting documentation. 
 
