@@ -3,7 +3,6 @@ languageCode: "en-us"
 title: "Nicholas Gilbert Blog"
 theme: 'papermod'
 paginate: 5
-disqusShortname: https-gilbertdev-net
 
 menu:
   main:
@@ -57,3 +56,13 @@ params:
   ShowToc: true
   TocOpen: false
   ShowReadingTime: true
+
+  giscus:
+    repo: gilben1/gilben1.github.io
+    repoID: MDEwOlJlcG9zaXRvcnkyNDY0MjI1NjU=
+    category: Announcements
+    categoryID: DIC_kwDODrAcJc4CUA9K
+    mapping: url
+    inputPosition: top
+    theme: transparent_dark
+    lang: en
