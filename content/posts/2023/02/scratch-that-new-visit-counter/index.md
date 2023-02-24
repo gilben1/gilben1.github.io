@@ -3,7 +3,7 @@ title: "Scratch That, New Visit Counter"
 description: "Or, when you want a dash of analytics with your view counts"
 date: 2023-02-23T20:56:06-08:00
 publishDate: 2023-02-23T20:56:06-08:00
-draft: true
+draft: false
 tags: ["Hugo", "Blog", "Visitors", "Viewcount"]
 ---
 
