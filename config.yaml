@@ -1,6 +1,6 @@
 baseURL: "https://gilbertdev.net"
 languageCode: "en-us"
-title: "Nicholas Gilbert Blog"
+title: "Nicholas Gilbert-Croysdale Blog"
 theme: 'papermod'
 paginate: 5
 
@@ -29,13 +29,13 @@ taxonomies:
 params:
   env: production
   description: "Portfolio for my work and also blog for my thoughts"
-  author: Nicholas Gilbert
+  author: Nicholas Gilbert-Croysdale
   comments: true
 
   homeInfoParams:
     Title: Hello there!
     Content: |
-      My name is Nicholas Gilbert, welcome to my blog / portfolio! I'm a cloud administrator who specializes in automation using Powershell to yell at Azure / Azure adjacent things.
+      My name is Nicholas Gilbert-Croysdale, welcome to my blog / portfolio! I'm a Senior Systems Engineer who specializes in automation using Powershell to yell at Azure / Azure adjacent things.
       
       -
 
