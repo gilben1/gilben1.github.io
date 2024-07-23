@@ -1,8 +1,8 @@
 ---
 title: "Still Alive 2024"
 description: "A post so nice I made it twice"
-date: 2024-07-23T15:00:02-07:00
-publishDate: 2024-07-23T15:00:02-07:00
+date: 2024-07-23T11:00:02-07:00
+publishDate: 2024-07-23T11:00:02-07:00
 draft: true
 tags: ["Barely A Post", "Blog"]
 ---
